@@ -9,4 +9,14 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Test Files\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Test Files\inflate.c">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

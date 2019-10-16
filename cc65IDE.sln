@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65IDE", "cc65IDE\cc65IDE.csproj", "{63CE0225-EAFE-4637-89FA-3BDC96F1DD35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cc65Wrapper", "cc65Wrapper\cc65Wrapper.csproj", "{B5267A6C-997E-4143-86BC-A4665F4FC307}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65Wrapper", "cc65Wrapper\cc65Wrapper.csproj", "{B5267A6C-997E-4143-86BC-A4665F4FC307}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cc65WrapperTests", "cc65WrapperTests\cc65WrapperTests.csproj", "{C358012C-71F8-4073-9A65-21013750C2FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{B5267A6C-997E-4143-86BC-A4665F4FC307}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5267A6C-997E-4143-86BC-A4665F4FC307}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5267A6C-997E-4143-86BC-A4665F4FC307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C358012C-71F8-4073-9A65-21013750C2FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C358012C-71F8-4073-9A65-21013750C2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C358012C-71F8-4073-9A65-21013750C2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C358012C-71F8-4073-9A65-21013750C2FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

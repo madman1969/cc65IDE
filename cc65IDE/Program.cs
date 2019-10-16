@@ -12,16 +12,17 @@ namespace cc65IDE
                 "inflate.c"
             };
 
-            var project = new CC65Project
+            // Define a new project with some source files and output file ...
+            var project = new Cc65Project
             {
                 TargetPlatform = "pet",
                 OptimiseCode = true,
                 WorkingDirectory = @"D:\commodore stuff\Pet Stuff\csource\inflate",
                 InputFiles = inputFiles,
-                OutputFile = "inflate"                
+                OutputFile = "inflate"
             };
-            
-            var result = await Cc65Wrapper.Compile(project);
+
+            var result = await Cc65Build.Compile(project);
         }
     }
 }
