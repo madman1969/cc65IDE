@@ -7,8 +7,6 @@ namespace cc65Wrapper.Tests
     [TestClass()]
     public class Cc65ProjectTests
     {
-        [TestInitialize]
-
         [TestMethod()]
         public void NewProject_WithDefaultSetting_ShouldSucceed()
         {

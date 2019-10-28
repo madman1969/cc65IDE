@@ -10,6 +10,9 @@ namespace cc65Wrapper
     /// </summary>
     public class Cc65Build
     {
+
+        #region Constants
+
         /// <summary>
         /// Define more readable placeholders for cl65 cmd line options
         /// </summary>
@@ -18,6 +21,10 @@ namespace cc65Wrapper
         const string TARGET_OPTION = "-t";
         const string OUTPUT_FILE_OPTION = "-o";
         const string OPTIMISE_OPTION = "-O";
+
+        #endregion
+
+        #region Public methods
 
         /// <summary>
         /// Compiles source file associated with project file into output file using 'cl65'
@@ -28,47 +35,51 @@ namespace cc65Wrapper
         {
             CliWrap.Models.ExecutionResult result;
 
+            // Take a copy of the current working directory ...
             var originalDir = Directory.GetCurrentDirectory();
 
             try
             {
+                // Switch to projects working directory ...
                 Directory.SetCurrentDirectory(project.WorkingDirectory);
 
+                // Build an arguments list from the project settings to pass to CL65 ...
                 var argumentList = BuildArgumentsList(project);
 
+                // Call CL65 with project settings ...
                 result = await Cli.Wrap(CL65)
                 .SetEnvironmentVariable(CC65_TARGET, project.TargetPlatform)
                 .SetArguments(argumentList)
                 .EnableExitCodeValidation(false)
                 .ExecuteAsync();
-
-                var exitCode = result.ExitCode;
-                var stdOut = result.StandardOutput;
-                var stdErr = result.StandardError;
-                var startTime = result.StartTime;
-                var exitTime = result.ExitTime;
-                var runTime = result.RunTime;
             }
             finally
             {
+                // Always restore the original working directory ...
                 Directory.SetCurrentDirectory(originalDir);
             }
 
             return result;
         }
 
+        #endregion
+
+
+        #region Private Methods
+
         /// <summary>
         /// Builds from supplied project file a list of string arguments to pass to 'cl65'
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>A List of strings representing the CL65 arguments</returns>
         private static List<string> BuildArgumentsList(Cc65Project project)
         {
-            var result = new List<string>();
-
-            // Add target args ...
-            result.Add(TARGET_OPTION);
-            result.Add(project.TargetPlatform);
+            var result = new List<string>
+            {
+                // Add target args ...
+                TARGET_OPTION,
+                project.TargetPlatform
+            };
 
             // Add input files ...
             foreach (var inputFile in project.InputFiles)
@@ -88,5 +99,7 @@ namespace cc65Wrapper
 
             return result;
         }
+
+        #endregion
     }
 }
