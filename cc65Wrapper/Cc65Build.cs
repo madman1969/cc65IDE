@@ -64,7 +64,6 @@ namespace cc65Wrapper
 
         #endregion
 
-
         #region Private Methods
 
         /// <summary>

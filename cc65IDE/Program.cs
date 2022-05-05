@@ -9,17 +9,18 @@ namespace cc65IDE
         {
             var inputFiles = new List<string>
             {
-                "inflate.c"
+                "main.c",
+                "draw.c"
             };
 
             // Define a new project with some source files and output file ...
             var project = new Cc65Project
             {
-                TargetPlatform = "pet",
+                TargetPlatform = "c128",
                 OptimiseCode = true,
-                WorkingDirectory = @"D:\commodore stuff\Pet Stuff\csource\inflate",
+                WorkingDirectory = @"C:\Users\aross\source\repos\Draw",
                 InputFiles = inputFiles,
-                OutputFile = "inflate"
+                OutputFile = "Draw"
             };
 
             var result = await Cc65Build.Compile(project);
