@@ -55,6 +55,8 @@ namespace Cc65WinForms
 
         private void PopulateTreeView()
         {
+            ClearTreeView();
+
             var rootNode = new TreeNode();
             rootNode.Name = $"{project.ProjectName}";
             rootNode.Text = $"{project.ProjectName}";
