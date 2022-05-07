@@ -70,6 +70,7 @@ namespace cc65Wrapper.Tests
 
             // Assert ...
             result.ShouldNotBeNull();
+            result.ProjectName.ShouldBe("Draw");
             result.TargetPlatform.ShouldBe("pet");
             result.OptimiseCode.ShouldBeTrue();
         }

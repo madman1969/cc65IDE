@@ -1,6 +1,8 @@
 ﻿using CliWrap;
+using CliWrap.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace cc65Wrapper
@@ -31,7 +33,7 @@ namespace cc65Wrapper
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public static async Task<CliWrap.Models.ExecutionResult> Compile(Cc65Project project)
+        public static async Task<ExecutionResult> Compile(Cc65Project project)
         {
             CliWrap.Models.ExecutionResult result;
 
@@ -63,6 +65,25 @@ namespace cc65Wrapper
         }
 
         #endregion
+
+        /// <summary>
+        /// Converts the ExecutionResult.StandardErrors string into a List of strings
+        /// 
+        /// N.B. We also de-duplicate the errors
+        /// 
+        /// </summary>
+        /// <returns>A List of strings representing the individual errors</returns>
+        public static List<string> ErrorsAsList(ExecutionResult executionResult)
+        {
+            var splitErrors = executionResult.StandardError.Split(
+                new string[] { "\r\n", "\r", "\n" },
+                System.StringSplitOptions.RemoveEmptyEntries);
+
+            var errorsList = new List<string>(splitErrors);
+            var dedupedList = errorsList.Distinct().ToList();
+
+            return dedupedList; 
+        }
 
         #region Private Methods
 

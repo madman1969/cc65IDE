@@ -1,5 +1,6 @@
 ﻿using cc65Wrapper;
-using System.Collections.Generic;
+using System;
+using System.IO;
 
 namespace cc65IDE
 {
@@ -7,28 +8,39 @@ namespace cc65IDE
     {
         static async System.Threading.Tasks.Task Main(string[] args)
         {
-            var inputFiles = new List<string>
-            {
-                "main.c",
-                "draw.c"
-            };
+            //var inputFiles = new List<string>
+            //{
+            //    "main.c",
+            //    "draw.c"
+            //};
 
-            // Define a new project with some source files and output file ...
-            var project = new Cc65Project
-            {
-                TargetPlatform = "pet",
-                OptimiseCode = true,
-                WorkingDirectory = @"C:\Users\aross\source\repos\Draw",
-                InputFiles = inputFiles,
-                OutputFile = "Draw"
-            };
+            //// Define a new project with some source files and output file ...
+            //var project = new Cc65Project
+            //{
+            //    ProjectName = "Draw",
+            //    TargetPlatform = "pet",
+            //    OptimiseCode = true,
+            //    WorkingDirectory = @"C:\Users\aross\source\repos\Draw",
+            //    InputFiles = inputFiles,
+            //    OutputFile = "Draw"
+            //};
 
-            // Get JSON representation of project ...
-            var projectJSON = project.AsJson();
+            //// Get JSON representation of project ...
+            //var projectJSON = project.AsJson();
+
+            // Load the project JSON ...
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
+            filepath = Path.Combine(filepath, "testproject.json");
+            var json = File.ReadAllText(filepath);
+            var project = Cc65Project.FromJson(json);
 
             // Compile the project ...
             var result = await Cc65Build.Compile(project);
 
+            if (result != null && result.ExitCode == 0)
+                Console.WriteLine("Successfully built project");
+            else
+                Console.WriteLine("Faild to build project !");
         }
     }
 }

@@ -61,6 +61,8 @@ namespace cc65Wrapper.Tests
             result.ExitCode.ShouldBe(1);
             result.StandardError.ShouldNotBeNullOrEmpty();
             result.StandardError.ShouldContain("Error");
+            var errorsList = Cc65Build.ErrorsAsList(result);
+            errorsList.Count.ShouldBe(4);
         }
     }
 }
