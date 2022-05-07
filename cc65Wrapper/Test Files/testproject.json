@@ -1,0 +1,9 @@
+{
+  "WorkingDirectory": "C:\\Users\\aross\\source\\repos\\Draw",
+  "TargetPlatform": "pet",
+  "InputFiles": ["main.c", "draw.c"],
+  "OutputFile": "Draw",
+  "OptimiseCode": true,
+  "Version": 1000,
+  "FullOutputFilePath": "C:\\Users\\aross\\source\\repos\\Draw\\Draw"
+}

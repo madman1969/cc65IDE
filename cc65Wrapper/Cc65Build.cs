@@ -73,6 +73,7 @@ namespace cc65Wrapper
         /// <returns>A List of strings representing the CL65 arguments</returns>
         private static List<string> BuildArgumentsList(Cc65Project project)
         {
+            // Add the target platform ...
             var result = new List<string>
             {
                 // Add target args ...

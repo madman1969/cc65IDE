@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Shouldly;
+using System.IO;
 
 namespace cc65Wrapper.Tests
 {
@@ -41,6 +42,36 @@ namespace cc65Wrapper.Tests
             fromResult.OutputFile.ShouldBe(project.OutputFile);
             fromResult.OptimiseCode.ShouldBe(project.OptimiseCode);
             fromResult.Version.ShouldBe(project.Version);
+        }
+
+        [TestMethod()]
+        public void FromJson_WithUnpopulatedJSON_ShouldFail()
+        {
+            // Arrange ...
+            var json = string.Empty;
+
+            // Act ...
+            var result = Cc65Project.FromJson(json);
+
+            // Assert ...
+            result.ShouldBeNull();
+        }
+
+        [TestMethod()]
+        public void FromJson_WithPopulatedJSON_ShouldSucceed()
+        {
+            // Arrange ...
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
+            filepath = Path.Combine(filepath, "testproject.json");            
+            var json = File.ReadAllText(filepath);
+
+            // Act ...
+            var result = Cc65Project.FromJson(json);
+
+            // Assert ...
+            result.ShouldNotBeNull();
+            result.TargetPlatform.ShouldBe("pet");
+            result.OptimiseCode.ShouldBeTrue();
         }
 
         [TestMethod]

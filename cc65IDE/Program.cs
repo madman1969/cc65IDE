@@ -16,14 +16,19 @@ namespace cc65IDE
             // Define a new project with some source files and output file ...
             var project = new Cc65Project
             {
-                TargetPlatform = "c128",
+                TargetPlatform = "pet",
                 OptimiseCode = true,
                 WorkingDirectory = @"C:\Users\aross\source\repos\Draw",
                 InputFiles = inputFiles,
                 OutputFile = "Draw"
             };
 
+            // Get JSON representation of project ...
+            var projectJSON = project.AsJson();
+
+            // Compile the project ...
             var result = await Cc65Build.Compile(project);
+
         }
     }
 }

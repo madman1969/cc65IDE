@@ -103,6 +103,16 @@ namespace cc65Wrapper
             return JsonConvert.SerializeObject(this);
         }
 
+        /// <summary>
+        /// Convert JSON representation into project instance
+        /// </summary>
+        /// <param name="Json"></param>
+        /// <returns></returns>
+        public static Cc65Project FromJson(string Json)
+        {
+            return JsonConvert.DeserializeObject<Cc65Project>(Json);
+        }
+
         #endregion
     }
 }
