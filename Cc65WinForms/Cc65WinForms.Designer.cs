@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cc65WinForms));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +48,7 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.editTextBox = new System.Windows.Forms.TextBox();
+            this.editTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -59,6 +61,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.editTextBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -102,6 +105,7 @@
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
@@ -125,14 +129,16 @@
             // buildProjectToolStripMenuItem
             // 
             this.buildProjectToolStripMenuItem.Name = "buildProjectToolStripMenuItem";
-            this.buildProjectToolStripMenuItem.Size = new System.Drawing.Size(212, 34);
+            this.buildProjectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.B)));
+            this.buildProjectToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
             this.buildProjectToolStripMenuItem.Text = "Build Project";
             this.buildProjectToolStripMenuItem.Click += new System.EventHandler(this.buildToolStripMenuItem_Click);
             // 
             // projectInfoToolStripMenuItem
             // 
             this.projectInfoToolStripMenuItem.Name = "projectInfoToolStripMenuItem";
-            this.projectInfoToolStripMenuItem.Size = new System.Drawing.Size(212, 34);
+            this.projectInfoToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
             this.projectInfoToolStripMenuItem.Text = "Project Info";
             // 
             // helpToolStripMenuItem
@@ -146,7 +152,7 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(164, 34);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -232,17 +238,33 @@
             // 
             // editTextBox
             // 
-            this.editTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editTextBox.AutoCompleteBracketsList = new char[] {
+        '(',
+        ')',
+        '{',
+        '}',
+        '[',
+        ']',
+        '\"',
+        '\"',
+        '\'',
+        '\''};
+            this.editTextBox.AutoScrollMinSize = new System.Drawing.Size(35, 22);
+            this.editTextBox.BackBrush = null;
+            this.editTextBox.CharHeight = 22;
+            this.editTextBox.CharWidth = 12;
+            this.editTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.editTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editTextBox.IsReplaceMode = false;
             this.editTextBox.Location = new System.Drawing.Point(0, 0);
-            this.editTextBox.Margin = new System.Windows.Forms.Padding(5);
-            this.editTextBox.Multiline = true;
             this.editTextBox.Name = "editTextBox";
-            this.editTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.editTextBox.Paddings = new System.Windows.Forms.Padding(0);
+            this.editTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.editTextBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("editTextBox.ServiceColors")));
             this.editTextBox.Size = new System.Drawing.Size(1263, 675);
             this.editTextBox.TabIndex = 0;
-            this.editTextBox.TextChanged += new System.EventHandler(this.editTextBox_TextChanged);
+            this.editTextBox.Zoom = 100;
+            this.editTextBox.TextChanged += new System.EventHandler<FastColoredTextBoxNS.TextChangedEventArgs>(this.editTextBox_TextChanged);
             // 
             // outputTextBox
             // 
@@ -279,11 +301,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
-            this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.editTextBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -304,12 +326,12 @@
         private Panel panel1;
         private SplitContainer splitContainer1;
         private SplitContainer splitContainer2;
-        private TextBox editTextBox;
         private TextBox outputTextBox;
         private TreeView treeView1;
         private ToolStripMenuItem projectToolStripMenuItem;
         private ToolStripMenuItem buildProjectToolStripMenuItem;
         private ToolStripMenuItem projectInfoToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
+        private FastColoredTextBoxNS.FastColoredTextBox editTextBox;
     }
 }

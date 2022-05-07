@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FCTB" Version="2.16.24" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\cc65Wrapper\cc65Wrapper.csproj" />
   </ItemGroup>
 

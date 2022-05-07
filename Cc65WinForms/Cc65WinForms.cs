@@ -125,16 +125,7 @@ namespace Cc65WinForms
                 editTextBox.Text = text;
                 saveToolStripMenuItem.Enabled = false;
             }                
-        }
-
-        private void editTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (editTextBox.Text.Length > 0)
-            {
-                saveToolStripMenuItem.Enabled = true;
-            }
-                
-        }
+        }        
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -146,6 +137,14 @@ namespace Cc65WinForms
         {
             var aboutBox = new AboutBox();
             aboutBox.ShowDialog();
+        }
+
+        private void editTextBox_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
+        {
+            if (editTextBox.Text.Length > 0)
+            {
+                saveToolStripMenuItem.Enabled = true;
+            }
         }
     }
 }
