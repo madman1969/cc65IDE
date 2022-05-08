@@ -51,6 +51,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.editTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
+            this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -125,7 +126,8 @@
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buildProjectToolStripMenuItem,
-            this.projectInfoToolStripMenuItem});
+            this.projectInfoToolStripMenuItem,
+            this.executeToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(82, 29);
             this.projectToolStripMenuItem.Text = "Project";
@@ -266,6 +268,7 @@
             this.editTextBox.CharWidth = 12;
             this.editTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.editTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.editTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editTextBox.IsReplaceMode = false;
             this.editTextBox.Location = new System.Drawing.Point(0, 0);
             this.editTextBox.Name = "editTextBox";
@@ -289,6 +292,14 @@
             this.outputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.outputTextBox.Size = new System.Drawing.Size(1263, 241);
             this.outputTextBox.TabIndex = 0;
+            // 
+            // executeToolStripMenuItem
+            // 
+            this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
+            this.executeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
+            this.executeToolStripMenuItem.Text = "Execute";
+            this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
             // 
             // Cc65WinForms
             // 
@@ -346,5 +357,6 @@
         private ToolStripMenuItem saveToolStripMenuItem;
         private FastColoredTextBoxNS.FastColoredTextBox editTextBox;
         private ToolStripStatusLabel targetToolStripStatusLabel;
+        private ToolStripMenuItem executeToolStripMenuItem;
     }
 }

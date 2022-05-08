@@ -9,10 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65Wrapper", "cc65Wrapper\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65WrapperTests", "cc65WrapperTests\cc65WrapperTests.csproj", "{C358012C-71F8-4073-9A65-21013750C2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cc65WinForms", "Cc65WinForms\Cc65WinForms.csproj", "{3124B0FA-5EC5-4244-84DE-986B01DB23F0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{63CE0225-EAFE-4637-89FA-3BDC96F1DD35} = {63CE0225-EAFE-4637-89FA-3BDC96F1DD35}
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cc65WinForms", "Cc65WinForms\Cc65WinForms.csproj", "{3124B0FA-5EC5-4244-84DE-986B01DB23F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,6 +7,7 @@ namespace Cc65WinForms
         #region Field and properties
 
         private Cc65Project? project;
+        private Cc65Emulators emulators;
         private string currentFile = string.Empty;
 
         #endregion
@@ -33,6 +34,12 @@ namespace Cc65WinForms
             projectToolStripStatusLabel.Text = "No project loaded";
             projectToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
+
+            // Load emulator settings ...
+            var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
+            filepath = Path.Combine(filepath, "emulators.json");
+            var json = File.ReadAllText(filepath);
+            emulators = Cc65Emulators.FromJson(json);
         }
 
         /// <summary>
@@ -103,8 +110,10 @@ namespace Cc65WinForms
         /// <summary>
         /// Builds the project.
         /// </summary>
-        private async Task BuildProject()
+        private async Task<bool> BuildProject()
         {
+            var builtOK = false;
+
             outputTextBox.AppendText($"Building {project.InputFiles.Count} files for project [{project.ProjectName}] targeting [{project.TargetPlatform}]...\r\n");
 
             // Compile the project ...
@@ -122,7 +131,24 @@ namespace Cc65WinForms
                 }
             }
             else
+            {
+                builtOK = true;
                 outputTextBox.AppendText("Build successful\r\n");
+            }
+                
+            return builtOK;
+        }
+
+        private async Task ExecuteProject()
+        {
+            var builtOK = await BuildProject();
+
+            if (builtOK)
+            {
+                outputTextBox.AppendText($"Launching {project.ProjectName} in emulator ...\r\n");
+
+                var result = await Cc65Emulators.LaunchEmulator(project, emulators);
+            }
         }
 
         /// <summary>
@@ -183,7 +209,6 @@ namespace Cc65WinForms
         #endregion
 
         #region Event Handlers
-
         private async void buildToolStripMenuItem_Click(object sender, EventArgs e)
         {
             await BuildProject();
@@ -234,8 +259,6 @@ namespace Cc65WinForms
             OpenProject();
         }
 
-        #endregion
-
         private void treeView1_Click(object sender, TreeNodeMouseClickEventArgs e)
         {
             // Is selected node header or source file ? ...
@@ -251,5 +274,13 @@ namespace Cc65WinForms
                 saveToolStripMenuItem.Enabled = false;
             }
         }
+
+        private async void executeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await ExecuteProject();
+        }
+
+        #endregion
+
     }
 }
