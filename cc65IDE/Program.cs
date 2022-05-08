@@ -44,7 +44,10 @@ namespace cc65IDE
             var result = await Cc65Build.Compile(project);
 
             if (result != null && result.ExitCode == 0)
+            {
                 Console.WriteLine("Successfully built project");
+                await Cc65Emulators.LaunchEmulator(project, emu);
+            }                
             else
                 Console.WriteLine("Faild to build project !");
         }

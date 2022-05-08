@@ -1,6 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using CliWrap;
+using CliWrap.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +73,84 @@ namespace cc65Wrapper
         public static Cc65Emulators FromJson(string Json)
         {
             return JsonConvert.DeserializeObject<Cc65Emulators>(Json);
+        }
+
+        public static async Task<ExecutionResult> LaunchEmulator(Cc65Project project, Cc65Emulators emulators)
+        {
+            ExecutionResult result;
+
+            // Take a copy of the current working directory ...
+            var originalDir = Directory.GetCurrentDirectory();
+
+            try
+            {
+                // Switch to projects working directory ...
+                Directory.SetCurrentDirectory(project.WorkingDirectory);
+
+                // Build an arguments list from the project settings to pass to CL65 ...
+                var argumentList = BuildArgumentsList(project);
+
+                var selectedEmulator = GetSelectedEmulator(project, emulators);
+
+                // Call CL65 with project settings ...
+                result = await Cli.Wrap(selectedEmulator)
+                .SetArguments(argumentList)
+                .EnableExitCodeValidation(false)
+                .ExecuteAsync();
+            }
+            finally
+            {
+                // Always restore the original working directory ...
+                Directory.SetCurrentDirectory(originalDir);
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static List<string> BuildArgumentsList(Cc65Project project)
+        {
+            // Add the target platform ...
+            var result = new List<string>();
+            result.Add($"-autostart");
+            result.Add(Path.Combine(project.WorkingDirectory, project.OutputFile));
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets the selected emulator file path.
+        /// </summary>
+        /// <param name="project">The project.</param>
+        /// <param name="emulators">The emulators.</param>
+        /// <returns></returns>
+        private static string GetSelectedEmulator(Cc65Project project, Cc65Emulators emulators)
+        {
+            var result = string.Empty;
+
+            switch (project.TargetPlatform)
+            {
+                case "pet":
+                    result = emulators.petPath;
+                    break;
+
+                case "c64":
+                    result = emulators.c64Path;
+                    break;
+
+                case "c128":
+                    result = emulators.c128Path;
+                    break;
+
+                default:
+                    result = emulators.c64Path;
+                    break;
+            }
+
+            return result;
         }
 
         #endregion
