@@ -1,6 +1,7 @@
 {
   "FullOutputFilePath": "C:\\Users\\aross\\source\\repos\\Draw\\Draw",
   "InputFiles": [ "main.c", "draw.c" ],
+  "HeaderFiles": [ "draw.h", "screen.h" ],
   "OptimiseCode": true,
   "OutputFile": "Draw",
   "ProjectName": "Draw",

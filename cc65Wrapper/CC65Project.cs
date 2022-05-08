@@ -46,6 +46,14 @@ namespace cc65Wrapper
         public List<string> InputFiles { get; set; }
 
         /// <summary>
+        /// Gets or sets the header files.
+        /// </summary>
+        /// <value>
+        /// The header files.
+        /// </value>
+        public List<string> HeaderFiles { get; set; }
+
+        /// <summary>
         /// Gets or sets the output file.
         /// </summary>
         /// <value>
