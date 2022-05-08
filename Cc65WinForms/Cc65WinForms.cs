@@ -30,7 +30,7 @@ namespace Cc65WinForms
         /// </summary>
         private void InitialiseApp()
         {
-            toolStripStatusLabel1.Text = "No project loaded";
+            projectToolStripStatusLabel.Text = "No project loaded";
             projectToolStripMenuItem.Enabled = false;
             saveToolStripMenuItem.Enabled = false;
         }
@@ -151,7 +151,7 @@ namespace Cc65WinForms
         private void CloseProject()
         {
             project = null;
-            toolStripStatusLabel1.Text = "No project loaded";
+            projectToolStripStatusLabel.Text = "No project loaded";
             projectToolStripMenuItem.Enabled = false;
             ClearTreeView();
             editTextBox.Clear();
@@ -172,7 +172,7 @@ namespace Cc65WinForms
                 var json = File.ReadAllText(projectFile);
                 project = Cc65Project.FromJson(json);
 
-                toolStripStatusLabel1.Text = $"Project {project.ProjectName} loaded";
+                projectToolStripStatusLabel.Text = $"Project {project.ProjectName} loaded";
                 projectToolStripMenuItem.Enabled = true;
             }
 
@@ -235,5 +235,21 @@ namespace Cc65WinForms
         }
 
         #endregion
+
+        private void treeView1_Click(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // Is selected node header or source file ? ...
+            if (e.Node.Tag as string != string.Empty)
+            {
+                // Yep, so retrieve the file path and clear the editor ...
+                currentFile = (string)e.Node.Tag;
+                editTextBox.Clear();
+
+                // Read the file and populate the editor ...
+                var text = File.ReadAllText(currentFile);
+                editTextBox.Text = text;
+                saveToolStripMenuItem.Enabled = false;
+            }
+        }
     }
 }
