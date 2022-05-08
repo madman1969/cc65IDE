@@ -30,9 +30,15 @@ namespace cc65IDE
 
             // Load the project JSON ...
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
-            filepath = Path.Combine(filepath, "testproject.json");
+            filepath = Path.Combine(filepath, "project.json");
             var json = File.ReadAllText(filepath);
             var project = Cc65Project.FromJson(json);
+
+            // Load the emulators JSON ...
+            filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
+            filepath = Path.Combine(filepath, "emulators.json");
+            json = File.ReadAllText(filepath);
+            var emu = Cc65Emulators.FromJson(json);
 
             // Compile the project ...
             var result = await Cc65Build.Compile(project);

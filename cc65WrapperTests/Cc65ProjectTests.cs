@@ -62,7 +62,7 @@ namespace cc65Wrapper.Tests
         {
             // Arrange ...
             var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
-            filepath = Path.Combine(filepath, "testproject.json");            
+            filepath = Path.Combine(filepath, "project.json");            
             var json = File.ReadAllText(filepath);
 
             // Act ...

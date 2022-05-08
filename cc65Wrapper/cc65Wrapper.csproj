@@ -10,17 +10,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Test Files\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Update="Test Files\emulators.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Test Files\haserrors.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Test Files\inflate.c">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Test Files\testproject.json">
+    <None Update="Test Files\project.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
