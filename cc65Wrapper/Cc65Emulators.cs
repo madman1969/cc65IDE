@@ -1,11 +1,8 @@
 ﻿using CliWrap;
 using CliWrap.Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace cc65Wrapper

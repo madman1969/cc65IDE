@@ -40,6 +40,9 @@ namespace cc65IDE
             json = File.ReadAllText(filepath);
             var emu = Cc65Emulators.FromJson(json);
 
+            var envVars = new Cc65CompilerConfiguration();
+            envVars.SaveConfiguration();
+
             // Compile the project ...
             var result = await Cc65Build.Compile(project);
 
