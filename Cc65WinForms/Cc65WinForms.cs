@@ -282,5 +282,11 @@ namespace Cc65WinForms
 
         #endregion
 
+        private void cC65SettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var settings = new Cc65Settings();
+            settings.ShowDialog();
+
+        }
     }
 }

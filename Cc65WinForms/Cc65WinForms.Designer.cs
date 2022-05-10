@@ -39,6 +39,9 @@
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buildProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cC65SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -51,7 +54,6 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.editTextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.outputTextBox = new System.Windows.Forms.TextBox();
-            this.executeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -72,6 +74,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.projectToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -146,6 +149,29 @@
             this.projectInfoToolStripMenuItem.Name = "projectInfoToolStripMenuItem";
             this.projectInfoToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
             this.projectInfoToolStripMenuItem.Text = "Project Info";
+            // 
+            // executeToolStripMenuItem
+            // 
+            this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
+            this.executeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.executeToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
+            this.executeToolStripMenuItem.Text = "Execute";
+            this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cC65SettingsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(69, 29);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // cC65SettingsToolStripMenuItem
+            // 
+            this.cC65SettingsToolStripMenuItem.Name = "cC65SettingsToolStripMenuItem";
+            this.cC65SettingsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.cC65SettingsToolStripMenuItem.Text = "CC65 Settings";
+            this.cC65SettingsToolStripMenuItem.Click += new System.EventHandler(this.cC65SettingsToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -293,14 +319,6 @@
             this.outputTextBox.Size = new System.Drawing.Size(1263, 241);
             this.outputTextBox.TabIndex = 0;
             // 
-            // executeToolStripMenuItem
-            // 
-            this.executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            this.executeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.executeToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
-            this.executeToolStripMenuItem.Text = "Execute";
-            this.executeToolStripMenuItem.Click += new System.EventHandler(this.executeToolStripMenuItem_Click);
-            // 
             // Cc65WinForms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -358,5 +376,7 @@
         private FastColoredTextBoxNS.FastColoredTextBox editTextBox;
         private ToolStripStatusLabel targetToolStripStatusLabel;
         private ToolStripMenuItem executeToolStripMenuItem;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem cC65SettingsToolStripMenuItem;
     }
 }
