@@ -1,3 +1,4 @@
+using Cc65WinForms.Enumerations;
 using cc65Wrapper;
 
 namespace Cc65WinForms
@@ -207,6 +208,25 @@ namespace Cc65WinForms
             PopulateTreeView();
         }
 
+        private void AddNewFileToProject(CC65FileTypes filter = CC65FileTypes.None)
+        {
+            var addFileWin = new AddFile();
+            addFileWin.Project = project;
+            addFileWin.TypeFilter = filter;
+            addFileWin.ShowDialog();
+
+            while (addFileWin.Visible)
+            {
+                Thread.Sleep(250);
+            }
+
+            // Grab modified project ...
+            project = addFileWin.Project;
+
+            // Populate the tree view
+            PopulateTreeView();
+        }
+
         #endregion
 
         #region Event Handlers
@@ -262,18 +282,40 @@ namespace Cc65WinForms
 
         private void treeView1_Click(object sender, TreeNodeMouseClickEventArgs e)
         {
-            // Is selected node header or source file ? ...
-            if (e.Node.Tag as string != string.Empty)
+            switch (e.Button)
             {
-                // Yep, so retrieve the file path and clear the editor ...
-                currentFile = (string)e.Node.Tag;
-                editTextBox.Clear();
+                case MouseButtons.Left:
+                    // Is selected node header or source file ? ...
+                    if (e.Node.Tag as string != string.Empty)
+                    {
+                        // Yep, so retrieve the file path and clear the editor ...
+                        currentFile = (string)e.Node.Tag;
+                        editTextBox.Clear();
 
-                // Read the file and populate the editor ...
-                var text = File.ReadAllText(currentFile);
-                editTextBox.Text = text;
-                saveToolStripMenuItem.Enabled = false;
+                        // Read the file and populate the editor ...
+                        var text = File.ReadAllText(currentFile);
+                        editTextBox.Text = text;
+                        saveToolStripMenuItem.Enabled = false;
+                    }
+                    break;
+
+                case MouseButtons.Right:
+                    switch (e.Node.Text)
+                    {
+                        case "Header Files":
+                            AddNewFileToProject(CC65FileTypes.SourceFile);
+                            break;
+
+                        case "Source Files":
+                            AddNewFileToProject(CC65FileTypes.IncludeFile);
+                            break;
+                    }
+                    break;
+
+                default:
+                    break;
             }
+
         }
 
         private async void executeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -289,19 +331,7 @@ namespace Cc65WinForms
 
         private void projectInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var addFileWin = new AddFile(project);
-            addFileWin.ShowDialog();
-
-            while (addFileWin.Visible)
-            {
-                Thread.Sleep(250);
-            }
-
-            // Grab modified project ...
-            project = addFileWin.Project;
-
-            // Populate the tree view
-            PopulateTreeView();
+            AddNewFileToProject();
         }
 
         #endregion

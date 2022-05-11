@@ -1,13 +1,5 @@
-﻿using cc65Wrapper;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Cc65WinForms.Enumerations;
+using cc65Wrapper;
 
 namespace Cc65WinForms
 {
@@ -16,14 +8,15 @@ namespace Cc65WinForms
         #region Fields and properties
 
         Cc65Project _project;
+        CC65FileTypes _typeFilter;
 
         public Cc65Project Project { get => _project; set => _project = value; }
+        public CC65FileTypes TypeFilter { get => _typeFilter; set => _typeFilter = value; }
 
         #endregion
 
-        public AddFile(Cc65Project project)
+        public AddFile()
         {
-            Project = project;
             InitializeComponent();
 
             // Default to Source file ...
