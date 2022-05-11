@@ -148,7 +148,8 @@
             // 
             this.projectInfoToolStripMenuItem.Name = "projectInfoToolStripMenuItem";
             this.projectInfoToolStripMenuItem.Size = new System.Drawing.Size(321, 34);
-            this.projectInfoToolStripMenuItem.Text = "Project Info";
+            this.projectInfoToolStripMenuItem.Text = "Add Files";
+            this.projectInfoToolStripMenuItem.Click += new System.EventHandler(this.projectInfoToolStripMenuItem_Click);
             // 
             // executeToolStripMenuItem
             // 
@@ -169,7 +170,7 @@
             // cC65SettingsToolStripMenuItem
             // 
             this.cC65SettingsToolStripMenuItem.Name = "cC65SettingsToolStripMenuItem";
-            this.cC65SettingsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.cC65SettingsToolStripMenuItem.Size = new System.Drawing.Size(225, 34);
             this.cC65SettingsToolStripMenuItem.Text = "CC65 Settings";
             this.cC65SettingsToolStripMenuItem.Click += new System.EventHandler(this.cC65SettingsToolStripMenuItem_Click);
             // 
@@ -294,7 +295,6 @@
             this.editTextBox.CharWidth = 12;
             this.editTextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.editTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.editTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editTextBox.IsReplaceMode = false;
             this.editTextBox.Location = new System.Drawing.Point(0, 0);
             this.editTextBox.Name = "editTextBox";

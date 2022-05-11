@@ -9,6 +9,7 @@ namespace Cc65WinForms
         private Cc65Project? project;
         private Cc65Emulators emulators;
         private string currentFile = string.Empty;
+        private string projectFile = string.Empty;
 
         #endregion
 
@@ -194,7 +195,7 @@ namespace Cc65WinForms
             if (dr == DialogResult.OK)
             {
                 // Load the project JSON ...
-                var projectFile = openFileDialog1.FileNames.First();
+                projectFile = openFileDialog1.FileNames.First();
                 var json = File.ReadAllText(projectFile);
                 project = Cc65Project.FromJson(json);
 
@@ -280,13 +281,29 @@ namespace Cc65WinForms
             await ExecuteProject();
         }
 
-        #endregion
-
         private void cC65SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var settings = new Cc65Settings();
             settings.ShowDialog();
-
         }
+
+        private void projectInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var addFileWin = new AddFile(project);
+            addFileWin.ShowDialog();
+
+            while (addFileWin.Visible)
+            {
+                Thread.Sleep(250);
+            }
+
+            // Grab modified project ...
+            project = addFileWin.Project;
+
+            // Populate the tree view
+            PopulateTreeView();
+        }
+
+        #endregion
     }
 }
