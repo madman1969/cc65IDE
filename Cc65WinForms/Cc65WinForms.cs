@@ -5,6 +5,9 @@ namespace Cc65WinForms
 {
     public partial class Cc65WinForms : Form
     {
+        // TODO: Add facility to save project file
+        // TODO: Add filter support on 'Add File' dialog
+
         #region Field and properties
 
         private Cc65Project? project;
