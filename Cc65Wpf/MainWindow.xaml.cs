@@ -31,7 +31,9 @@ namespace Cc65Wpf
 		void openFileClick(object sender, RoutedEventArgs e)
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Filter = "Source Files|*.c|Header Files|*.h";
 			dlg.CheckFileExists = true;
+
 			if (dlg.ShowDialog() ?? false)
 			{
 				currentFileName = dlg.FileName;
@@ -46,6 +48,7 @@ namespace Cc65Wpf
 			{
 				SaveFileDialog dlg = new SaveFileDialog();
 				dlg.DefaultExt = ".txt";
+
 				if (dlg.ShowDialog() ?? false)
 				{
 					currentFileName = dlg.FileName;
@@ -55,6 +58,7 @@ namespace Cc65Wpf
 					return;
 				}
 			}
+
 			textEditor.Save(currentFileName);
 		}
 

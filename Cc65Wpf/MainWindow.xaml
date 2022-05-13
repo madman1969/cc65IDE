@@ -1,8 +1,9 @@
-﻿<Window x:Class="Cc65Wpf.MainWindow"
+﻿<Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 	xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+	xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Cc65Wpf.MainWindow"
 	Title="CC65 IDE" Height="750" Width="900" Icon="/commodore.png" WindowStartupLocation="CenterScreen"
     >
     <DockPanel>
@@ -34,34 +35,35 @@
                 <Image Source="/Redo.png" Height="16"/>
             </Button>
             <Separator/>
-            <CheckBox IsChecked="{Binding ElementName=textEditor,Path=WordWrap}">
+            <CheckBox IsChecked="{Binding WordWrap, ElementName=textEditor}">
                 <Image Source="Images/WordWrap.png" Height="16"/>
             </CheckBox>
-            <CheckBox IsChecked="{Binding ElementName=textEditor,Path=ShowLineNumbers}">
-                <TextBlock Width="16" TextAlignment="Center">#</TextBlock>
+            <CheckBox IsChecked="{Binding ShowLineNumbers, ElementName=textEditor}">
+                <TextBlock Width="16" TextAlignment="Center"><Run Text="#"/></TextBlock>
             </CheckBox>
-            <CheckBox IsChecked="{Binding ElementName=textEditor,Path=Options.ShowEndOfLine}">
-                <TextBlock Width="16" TextAlignment="Center">¶</TextBlock>
+            <CheckBox IsChecked="{Binding Options.ShowEndOfLine, ElementName=textEditor}">
+                <TextBlock Width="16" TextAlignment="Center"><Run Text="¶"/></TextBlock>
             </CheckBox>
-            <ComboBox Name="highlightingComboBox"
+            <ComboBox x:Name="highlightingComboBox"
 				SelectedItem="{Binding SyntaxHighlighting, ElementName=textEditor}"
-				ItemsSource="{Binding Source={x:Static avalonEdit:HighlightingManager.Instance}, Path=HighlightingDefinitions}"
+				ItemsSource="{Binding HighlightingDefinitions, Source={x:Static avalonEdit:HighlightingManager.Instance}}"
 				SelectionChanged="HighlightingComboBox_SelectionChanged"/>
         </ToolBar>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListView />
+            <ListView av:ItemsSource="{av:SampleData ItemCount=5}" />
             <avalonEdit:TextEditor
-                Grid.Column="1"
-				Name="textEditor"
+                Grid.Column="2"
+				x:Name="textEditor"
 				FontFamily="Consolas"
 				FontSize="10pt"
 				SyntaxHighlighting="C++"
-                ShowLineNumbers="True" >
-            </avalonEdit:TextEditor>
+                ShowLineNumbers="True" Margin="2,0,2,0" />
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
         </Grid>
     </DockPanel>
 </Window>
