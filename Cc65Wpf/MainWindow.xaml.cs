@@ -230,7 +230,7 @@ namespace Cc65Wpf
 			}
 
 			// Populate the tree view
-			// PopulateTreeView();
+			PopulateTreeView();
 		}
 
 		private void CloseProject()
@@ -253,6 +253,56 @@ namespace Cc65Wpf
         {
 			ClearTreeView();
 
+            // Add root node ...
+            var rootNode = new TreeViewItem
+            {
+                // Name = $"{project.ProjectName}",
+                Header = $"{project.ProjectName}",
+                Tag = string.Empty
+            };
+            projectTreeView.Items.Add(rootNode);
+
+            // Add 'Header Files' node ...
+            var hdrFiles = new TreeViewItem
+            {
+                Header = "Header Files",
+                Tag = string.Empty,
+				IsExpanded = true
+			};
+            rootNode.Items.Add(hdrFiles);
+
+            // Add 'Source Files' node ...
+            var srcFiles = new TreeViewItem
+            {
+                Header = "Source Files",
+                Tag = string.Empty,
+				IsExpanded = true
+            };
+            rootNode.Items.Add(srcFiles);
+
+			// Add the header files ...
+			foreach (var hdrfile in project.HeaderFiles)
+			{
+				var node = new TreeViewItem
+				{
+					Header = hdrfile,
+					Tag = Path.Combine(project.WorkingDirectory, hdrfile)
+				};
+
+				hdrFiles.Items.Add(node);
+			}
+
+			// Add the source files ...
+			foreach (var srcfile in project.InputFiles)
+			{
+				var node = new TreeViewItem
+				{
+					Header = srcfile,
+					Tag = Path.Combine(project.WorkingDirectory, srcfile)
+				};
+
+				srcFiles.Items.Add(node);
+			}
 		}
 
         #endregion
