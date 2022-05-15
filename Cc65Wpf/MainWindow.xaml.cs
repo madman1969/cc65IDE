@@ -10,8 +10,6 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Add mechanism to add source/header files
-	// TODO: Add CC65 Settings dialog
 	// TODO: Add project settings dialog
 	// TODO: Add WinVICE settings dialog ?
 
@@ -200,6 +198,11 @@ namespace Cc65Wpf
 		private void CC65SettingsMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			ShowCC65Settings();
+		}
+
+		private void AddExistingFileMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			AddExistingFile();
 		}
 
 		#endregion
@@ -415,13 +418,25 @@ namespace Cc65Wpf
 			}
 		}
 
-
+		/// <summary>
+		/// Display CC65 settings window
+		/// </summary>
 		private void ShowCC65Settings()
         {
 			var dlg = new CC65SettingsWindow();
 			dlg.ShowDialog();
         }
 
+		/// <summary>
+		/// Adds an existing source/header file to the project
+		/// </summary>
+		private void AddExistingFile()
+        {
+			// TODO: Flesh out adding new source/header file
+        }
+
 		#endregion
+
+
     }	
 }

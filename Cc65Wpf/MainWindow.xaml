@@ -29,8 +29,8 @@
             <MenuItem x:Name="ProjectMenuItem" Header="_Project">
                 <MenuItem x:Name="BuildProjectMenuItem" Header="Build Project"/>
                 <MenuItem x:Name="AddFilesMenuItem" Header="Add Files">
-                    <MenuItem Header="New File"/>
-                    <MenuItem Header="Existing File"/>
+                    <MenuItem x:Name="AddNewFileMenuItem" Header="New File"/>
+                    <MenuItem x:Name="AddExistingFileMenuItem" Header="Existing File" Click="AddExistingFileMenuItem_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="ExecuteMenuItem" Header="Execute"/>
             </MenuItem>
