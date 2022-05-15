@@ -35,7 +35,7 @@
                 <MenuItem x:Name="ExecuteMenuItem" Header="Execute"/>
             </MenuItem>
             <MenuItem x:Name="ToolsMenuItem" Header="_Tools">
-                <MenuItem x:Name="CC65SettingsMenuItem" Header="CC65 Settings" />
+                <MenuItem x:Name="CC65SettingsMenuItem" Header="CC65 Settings" Click="CC65SettingsMenuItem_Click" />
                 <MenuItem x:Name="WinVICESettingsMenuItem" Header="WinVICE Settings" />
             </MenuItem>
             <MenuItem x:Name="HelpMenuItem" Header="_Help">

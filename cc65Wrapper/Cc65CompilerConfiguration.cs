@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace cc65Wrapper
 {
@@ -16,10 +17,20 @@ namespace cc65Wrapper
 
         #region Fields and properties 
 
+        [DisplayName("CC65_HOME")]
+        [Description("The CC65_HOME Path. Root of the CC65 installation")]
         public string cc65Home { get; set; }
+        [DisplayName("CC65_INC")]
+        [Description("The CC65_INC Path. The path to the CC65 include files folder")]
         public string cc65Include { get; set; }
+        [DisplayName("LD65_CFG")]
+        [Description("The LD65_CFG Path")]
         public string ld65Cfg { get; set; }
+        [DisplayName("LD65_LIB")]
+        [Description("The LD65_LIB Path. The path to the CC65 library files folder")]
         public string ld65Lib { get; set; }
+        [DisplayName("MAKE_HOME")]
+        [Description("The MAKE_HOME Path. The location of the MAKE binary")]
         public string makeHome { get; set; }
 
         #endregion

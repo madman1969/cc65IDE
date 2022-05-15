@@ -197,6 +197,11 @@ namespace Cc65Wpf
 			await ExecuteProject();
 		}
 
+		private void CC65SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			ShowCC65Settings();
+		}
+
 		#endregion
 
 		#region Private Methods
@@ -397,7 +402,7 @@ namespace Cc65Wpf
 		/// </summary>
 		private void PromptForModifiedFile()
 		{
-			var result = MessageBox.Show("Do you want to save the changes ?", $"{currentFileName} - File Modified !", MessageBoxButton.YesNo);
+			var result = MessageBox.Show("Do you want to save the changes ?", $"{currentFileName} - File Modified !", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			switch (result)
 			{
@@ -411,6 +416,12 @@ namespace Cc65Wpf
 		}
 
 
-        #endregion        
+		private void ShowCC65Settings()
+        {
+			var dlg = new CC65SettingsWindow();
+			dlg.ShowDialog();
+        }
+
+		#endregion
     }	
 }
