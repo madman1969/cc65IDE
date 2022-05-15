@@ -8,8 +8,8 @@
     mc:Ignorable="av" 
     x:Class="Cc65Wpf.MainWindow"
 	Title="CC65 IDE" 
-    Height="750" 
-    Width="900" 
+    Height="1024" 
+    Width="1280" 
     Icon="/Images/commodore.png" 
     WindowStartupLocation="CenterScreen" >
     <DockPanel x:Name="MainPanel">
