@@ -233,6 +233,7 @@ namespace Cc65WinForms
         #endregion
 
         #region Event Handlers
+
         private async void buildToolStripMenuItem_Click(object sender, EventArgs e)
         {
             await BuildProject();

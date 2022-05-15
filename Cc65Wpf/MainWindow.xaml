@@ -3,62 +3,119 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
 	xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-	xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="Cc65Wpf.MainWindow"
-	Title="CC65 IDE" Height="750" Width="900" Icon="/commodore.png" WindowStartupLocation="CenterScreen"
-    >
-    <DockPanel>
-        <ToolBar DockPanel.Dock="Top">
-            <Button Click="openFileClick">
+	xmlns:av="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="av" 
+    x:Class="Cc65Wpf.MainWindow"
+	Title="CC65 IDE" 
+    Height="750" 
+    Width="900" 
+    Icon="/commodore.png" 
+    WindowStartupLocation="CenterScreen" >
+    <DockPanel x:Name="MainPanel">
+        <Menu x:Name="AppMenu" DockPanel.Dock="Top">
+            <MenuItem x:Name="FileMenuItem" Header="_File">
+                <MenuItem x:Name="OpenMenuItem" Header="_Open">
+                    <MenuItem x:Name="OpenProjectMenuItem" Header="Open _Project" Click="OpenProjectMenuItem_Click"/>
+                    <MenuItem x:Name="OpenFileMenuItem" Header="Open _File" Click="OpenFileMenuItem_Click" />
+                </MenuItem>
+                <MenuItem x:Name="CloseFileMenuItem" Header="_Close File" Click="CloseFileMenuItem_Click"/>
+                <MenuItem x:Name="CloseProjectMenuItem" Header="Close Project" Click="CloseProjectMenuItem_Click"/>
+                <Separator/>
+                <MenuItem x:Name="SaveMenuItem" Header="_Save" Click="SaveMenuItem_Click"/>
+                <Separator/>
+                <MenuItem x:Name="ExitMenuItem" Header="_Exit" Click="ExitMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="ProjectMenuItem" Header="Project">
+                <MenuItem x:Name="BuildProjectMenuItem" Header="Build Project"/>
+                <MenuItem x:Name="AddFilesMenuItem" Header="Add Files"/>
+                <MenuItem x:Name="ExecuteMenuItem" Header="Execute"/>
+            </MenuItem>
+            <MenuItem x:Name="ToolsMenuItem" Header="Tools">
+                <MenuItem x:Name="CC65SettingsMenuItem" Header="CC65 Settings" />
+                <MenuItem x:Name="WinVICESettingsMenuItem" Header="WinVICE Settings" />
+            </MenuItem>
+            <MenuItem x:Name="HelpMenuItem" Header="Help">
+                <MenuItem Header="About"/>
+            </MenuItem>
+        </Menu>
+        <ToolBar x:Name="AppToolBar" DockPanel.Dock="Top">
+            <Button x:Name="OpenButton" ToolTip="Open a file" Click="openFileClick">
                 <Image Source="/Open.png" Height="16"/>
             </Button>
-            <Button Click="saveFileClick">
+            <Button x:Name="SaveButton" ToolTip="Save current file" Click="saveFileClick">
                 <Image Source="/Save.png" Height="16"/>
             </Button>
             <Separator/>
-            <Button Command="Cut">
+            <Button x:Name="CutButton" Command="Cut">
                 <Image Source="/Cut.png" Height="16"/>
             </Button>
-            <Button Command="Copy">
+            <Button x:Name="CopyButton" Command="Copy">
                 <Image Source="/Copy.png" Height="16"/>
             </Button>
-            <Button Command="Paste">
+            <Button x:Name="PasteButton" Command="Paste">
                 <Image Source="/Paste.png" Height="16"/>
             </Button>
-            <Button Command="Delete">
+            <Button x:Name="DeleteButton" Command="Delete">
                 <Image Source="/Delete.png" Height="16"/>
             </Button>
-            <Separator/>
-            <Button Command="Undo">
+            <Button x:Name="UndoButton" Command="Undo">
                 <Image Source="/Undo.png" Height="16"/>
             </Button>
-            <Button Command="Redo">
+            <Button x:Name="RedoButton" Command="Redo">
                 <Image Source="/Redo.png" Height="16"/>
             </Button>
             <Separator/>
-            <CheckBox IsChecked="{Binding WordWrap, ElementName=textEditor}">
-                <Image Source="Images/WordWrap.png" Height="16"/>
-            </CheckBox>
-            <CheckBox IsChecked="{Binding ShowLineNumbers, ElementName=textEditor}">
+            <Button x:Name="BuildButton" ToolTip="Build project">
+                <Image Source="/work-process.png" Height="16"/>
+            </Button>
+            <Button x:Name="ExecuteButton" ToolTip="Execute project">
+                <Image Source="/C64-icon.png" Height="16"/>
+            </Button>
+            <Separator/>
+            <CheckBox 
+                x:Name="ShowLineNumsCheckBox" 
+                ToolTip="Show Line Numbers"
+                IsChecked="{Binding ShowLineNumbers, ElementName=textEditor}">
                 <TextBlock Width="16" TextAlignment="Center"><Run Text="#"/></TextBlock>
             </CheckBox>
-            <CheckBox IsChecked="{Binding Options.ShowEndOfLine, ElementName=textEditor}">
-                <TextBlock Width="16" TextAlignment="Center"><Run Text="¶"/></TextBlock>
+            <CheckBox 
+                x:Name="ShowEOLCheckBox" 
+                ToolTip="Show EOL character"
+                IsChecked="{Binding Options.ShowEndOfLine, ElementName=textEditor}">
+                <TextBlock 
+                    Width="16" 
+                    TextAlignment="Center"><Run Text="¶"/></TextBlock>
             </CheckBox>
-            <ComboBox x:Name="highlightingComboBox"
+            <ComboBox x:Name="FileTypeComboBox"
+                IsEditable="False"
 				SelectedItem="{Binding SyntaxHighlighting, ElementName=textEditor}"
 				ItemsSource="{Binding HighlightingDefinitions, Source={x:Static avalonEdit:HighlightingManager.Instance}}"
-				SelectionChanged="HighlightingComboBox_SelectionChanged"/>
+				SelectionChanged="HighlightingComboBox_SelectionChanged" IsEnabled="False"/>
+            <Separator />
         </ToolBar>
-        <Grid>
+        <StatusBar x:Name="AppStatusBar" DockPanel.Dock="Bottom">
+            <StatusBarItem x:Name="ProjectInfoStatusBarItem">
+                <TextBlock x:Name="projectInfo" Text="No Project loaded" />
+            </StatusBarItem>
+        </StatusBar>
+        <TextBox 
+            x:Name="outputTextBox" 
+            DockPanel.Dock="Bottom" 
+            MinHeight="100" 
+            TextWrapping="Wrap" Text=" "/>
+        <Grid x:Name="MainPanelGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <ListView av:ItemsSource="{av:SampleData ItemCount=5}" />
+            <TreeView x:Name="projectTreeView" Grid.Column="1">
+
+            </TreeView>
             <avalonEdit:TextEditor
                 Grid.Column="2"
-				x:Name="textEditor"
+				x:Name="textEditor"                
 				FontFamily="Consolas"
 				FontSize="10pt"
 				SyntaxHighlighting="C++"
