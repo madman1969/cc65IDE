@@ -10,7 +10,7 @@
 	Title="CC65 IDE" 
     Height="750" 
     Width="900" 
-    Icon="/commodore.png" 
+    Icon="/Images/commodore.png" 
     WindowStartupLocation="CenterScreen" >
     <DockPanel x:Name="MainPanel">
         <Menu x:Name="AppMenu" DockPanel.Dock="Top">
@@ -26,51 +26,54 @@
                 <Separator/>
                 <MenuItem x:Name="ExitMenuItem" Header="_Exit" Click="ExitMenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="ProjectMenuItem" Header="Project">
+            <MenuItem x:Name="ProjectMenuItem" Header="_Project">
                 <MenuItem x:Name="BuildProjectMenuItem" Header="Build Project"/>
-                <MenuItem x:Name="AddFilesMenuItem" Header="Add Files"/>
+                <MenuItem x:Name="AddFilesMenuItem" Header="Add Files">
+                    <MenuItem Header="New File"/>
+                    <MenuItem Header="Existing File"/>
+                </MenuItem>
                 <MenuItem x:Name="ExecuteMenuItem" Header="Execute"/>
             </MenuItem>
-            <MenuItem x:Name="ToolsMenuItem" Header="Tools">
+            <MenuItem x:Name="ToolsMenuItem" Header="_Tools">
                 <MenuItem x:Name="CC65SettingsMenuItem" Header="CC65 Settings" />
                 <MenuItem x:Name="WinVICESettingsMenuItem" Header="WinVICE Settings" />
             </MenuItem>
-            <MenuItem x:Name="HelpMenuItem" Header="Help">
+            <MenuItem x:Name="HelpMenuItem" Header="_Help">
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
         <ToolBar x:Name="AppToolBar" DockPanel.Dock="Top">
             <Button x:Name="OpenButton" ToolTip="Open a file" Click="openFileClick">
-                <Image Source="/Open.png" Height="16"/>
+                <Image Source="/Images/Open.png" Height="16"/>
             </Button>
             <Button x:Name="SaveButton" ToolTip="Save current file" Click="saveFileClick">
-                <Image Source="/Save.png" Height="16"/>
+                <Image Source="/Images/Save.png" Height="16"/>
             </Button>
             <Separator/>
             <Button x:Name="CutButton" Command="Cut">
-                <Image Source="/Cut.png" Height="16"/>
+                <Image Source="/Images/Cut.png" Height="16"/>
             </Button>
             <Button x:Name="CopyButton" Command="Copy">
-                <Image Source="/Copy.png" Height="16"/>
+                <Image Source="/Images/Copy.png" Height="16"/>
             </Button>
             <Button x:Name="PasteButton" Command="Paste">
-                <Image Source="/Paste.png" Height="16"/>
+                <Image Source="/Images/Paste.png" Height="16"/>
             </Button>
             <Button x:Name="DeleteButton" Command="Delete">
-                <Image Source="/Delete.png" Height="16"/>
+                <Image Source="/Images/Delete.png" Height="16"/>
             </Button>
             <Button x:Name="UndoButton" Command="Undo">
-                <Image Source="/Undo.png" Height="16"/>
+                <Image Source="/Images/Undo.png" Height="16"/>
             </Button>
             <Button x:Name="RedoButton" Command="Redo">
-                <Image Source="/Redo.png" Height="16"/>
+                <Image Source="/Images/Redo.png" Height="16"/>
             </Button>
             <Separator/>
-            <Button x:Name="BuildButton" ToolTip="Build project">
-                <Image Source="/work-process.png" Height="16"/>
+            <Button x:Name="BuildButton" ToolTip="Build project" Click="BuildButton_Click">
+                <Image Source="/Images/work-process.png" Height="16"/>
             </Button>
-            <Button x:Name="ExecuteButton" ToolTip="Execute project">
-                <Image Source="/C64-icon.png" Height="16"/>
+            <Button x:Name="ExecuteButton" ToolTip="Execute project" Click="ExecuteButton_Click">
+                <Image Source="/Images/C64-icon.png" Height="16"/>
             </Button>
             <Separator/>
             <CheckBox 
@@ -102,13 +105,16 @@
         <TextBox 
             x:Name="outputTextBox" 
             DockPanel.Dock="Bottom" 
-            MinHeight="100" 
+            MinHeight="150" 
+            MaxHeight="150"
+            VerticalScrollBarVisibility="Auto"
             TextWrapping="Wrap" Text=" "/>
         <Grid x:Name="MainPanelGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="4"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="26*"/>
+                <ColumnDefinition Width="347*"/>
             </Grid.ColumnDefinitions>
             <TreeView x:Name="projectTreeView" Grid.Column="0" SelectedItemChanged="projectTreeView_SelectedItemChanged">
                 <TreeView.ItemContainerStyle>
@@ -123,8 +129,8 @@
 				FontFamily="Consolas"
 				FontSize="10pt"
 				SyntaxHighlighting="C++"
-                ShowLineNumbers="True" Margin="2,0,2,0" />
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
+                ShowLineNumbers="True" Margin="2,0,2,0" Grid.ColumnSpan="2" />
+            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"/>
         </Grid>
     </DockPanel>
 </Window>

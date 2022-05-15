@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Threading;
-using System.Xml;
 using cc65Wrapper;
-using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Search;
 using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
+	// TODO: Add mechanism to add source/header files
+	// TODO: Add CC65 Settings dialog
+	// TODO: Add project settings dialog
+	// TODO: Add WinVICE settings dialog ?
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -26,15 +24,16 @@ namespace Cc65Wpf
 
 		private Cc65Project? project;
 		private Cc65Emulators emulators;
-		private string currentFileName = string.Empty;
-		private string currentFile = string.Empty;
+		private string currentFileName = string.Empty;		
 		private string projectFile = string.Empty;
+		FoldingManager foldingManager;
+		object foldingStrategy;
 
-        #endregion
+		#endregion
 
-        #region Class Constructor 
+		#region Class Constructor 
 
-        public MainWindow()
+		public MainWindow()
         {
             InitializeComponent();
 
@@ -43,15 +42,14 @@ namespace Cc65Wpf
 			filepath = Path.Combine(filepath, "emulators.json");
 			var json = File.ReadAllText(filepath);
 			emulators = Cc65Emulators.FromJson(json);
+			outputTextBox.Text = string.Empty;
 		}
 
 		#endregion
 
 		#region Folding
-		FoldingManager foldingManager;
-		object foldingStrategy;
 
-		void HighlightingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void HighlightingComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (textEditor.SyntaxHighlighting == null)
 			{
@@ -139,19 +137,9 @@ namespace Cc65Wpf
             }
 			else
             {
-				var result = MessageBox.Show("Do you want to save the changes ?", "File Modified !", MessageBoxButton.YesNo);
+                PromptForModifiedFile();
 
-				switch (result)
-                {
-					case MessageBoxResult.Yes:
-						SaveFile();
-						break;
-
-					case MessageBoxResult.No:
-						break;
-                }
-
-				textEditor.Clear();
+                textEditor.Clear();
             }
 
         }
@@ -180,23 +168,45 @@ namespace Cc65Wpf
 			if (tag != string.Empty)
 			{
 				// Yep, so retrieve the file path and clear the editor ...
-				currentFile = tag;
+				var currentFile = tag;
 				textEditor.Clear();
 
 				// Read the file and populate the editor ...
 				var text = File.ReadAllText(currentFile);
 				textEditor.Text = text;
-				// saveToolStripMenuItem.Enabled = false;
+
+				// Update the currently selected file ...
+				currentFileName = currentFile;
+				textEditor.IsModified = false;
 			}
+		}
+
+		private async void BuildButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (textEditor.IsModified)
+				PromptForModifiedFile();
+
+			await BuildProject();
+		}
+
+		private async void ExecuteButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (textEditor.IsModified)
+				PromptForModifiedFile();
+
+			await ExecuteProject();
 		}
 
 		#endregion
 
 		#region Private Methods
 
+		/// <summary>
+		/// Saves the current source file
+		/// </summary>
 		private void SaveFile()
 		{
-			if (currentFileName == null)
+			if (string.IsNullOrEmpty(currentFileName))
 			{
 				SaveFileDialog dlg = new SaveFileDialog();
 				dlg.DefaultExt = ".txt";
@@ -214,6 +224,9 @@ namespace Cc65Wpf
 			textEditor.Save(currentFileName);
 		}
 
+		/// <summary>
+		/// Open a source file
+		/// </summary>
 		private void OpenFile()
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
@@ -252,6 +265,9 @@ namespace Cc65Wpf
 			PopulateTreeView();
 		}
 
+		/// <summary>
+		/// Closes the current project
+		/// </summary>
 		private void CloseProject()
         {
 			project = null;
@@ -268,6 +284,9 @@ namespace Cc65Wpf
 			projectTreeView.Items.Clear();
 		}
 
+		/// <summary>
+		/// Populate the tree with the project files
+		/// </summary>
 		private void PopulateTreeView()
         {
 			ClearTreeView();
@@ -324,7 +343,74 @@ namespace Cc65Wpf
 			}
 		}
 
-        #endregion
+		/// <summary>
+		/// Builds the project.
+		/// </summary>
+		private async Task<bool> BuildProject()
+		{
+			var builtOK = false;
 
+			outputTextBox.AppendText($"Building {project.InputFiles.Count} files for project [{project.ProjectName}] targeting [{project.TargetPlatform}]...\r\n");
+
+			// Compile the project ...
+			var result = await Cc65Build.Compile(project);
+
+			if (result.ExitCode != 0)
+			{
+				var errorList = Cc65Build.ErrorsAsList(result);
+
+				outputTextBox.AppendText($"Build failed, found {errorList.Count} errors:\r\n");
+
+				foreach (var error in errorList)
+				{
+					outputTextBox.AppendText($"{error}\r\n");
+				}
+			}
+			else
+			{
+				builtOK = true;
+				outputTextBox.AppendText("Build successful\r\n");
+			}
+
+			outputTextBox.ScrollToEnd();
+
+			return builtOK;
+		}
+
+		/// <summary>
+		/// Launches the project in WinVICE.
+		/// </summary>
+		private async Task ExecuteProject()
+		{
+			var builtOK = await BuildProject();
+
+			if (builtOK)
+			{
+				outputTextBox.AppendText($"Launching {project.ProjectName} in emulator ...\r\n");
+
+				var result = await Cc65Emulators.LaunchEmulator(project, emulators);
+			}
+		}
+
+		/// <summary>
+		/// Prompt user to save modified file
+		/// </summary>
+		private void PromptForModifiedFile()
+		{
+			var result = MessageBox.Show("Do you want to save the changes ?", $"{currentFileName} - File Modified !", MessageBoxButton.YesNo);
+
+			switch (result)
+			{
+				case MessageBoxResult.Yes:
+					SaveFile();
+					break;
+
+				case MessageBoxResult.No:
+					break;
+			}
+		}
+
+
+        #endregion        
     }	
 }

@@ -8,20 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="C64-icon.png" />
-    <None Remove="commodore.png" />
-    <None Remove="Copy.png" />
-    <None Remove="Cut.png" />
-    <None Remove="Delete.png" />
-    <None Remove="Open.png" />
-    <None Remove="Paste.png" />
-    <None Remove="Redo.png" />
-    <None Remove="Save.png" />
-    <None Remove="Undo.png" />
-    <None Remove="work-process.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.1.3.50" />
   </ItemGroup>
 
@@ -30,17 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="C64-icon.png" />
-    <Resource Include="commodore.png" />
-    <Resource Include="Copy.png" />
-    <Resource Include="Cut.png" />
-    <Resource Include="Delete.png" />
-    <Resource Include="Open.png" />
-    <Resource Include="Paste.png" />
-    <Resource Include="Redo.png" />
-    <Resource Include="Save.png" />
-    <Resource Include="Undo.png" />
-    <Resource Include="work-process.png" />
+    <Resource Include="Images\C64-icon.png" />
+    <Resource Include="Images\commodore.png" />
+    <Resource Include="Images\Copy.png" />
+    <Resource Include="Images\Cut.png" />
+    <Resource Include="Images\Delete.png" />
+    <Resource Include="Images\Open.png" />
+    <Resource Include="Images\Paste.png" />
+    <Resource Include="Images\Redo.png" />
+    <Resource Include="Images\Save.png" />
+    <Resource Include="Images\Undo.png" />
+    <Resource Include="Images\work-process.png" />
   </ItemGroup>
 
 </Project>
