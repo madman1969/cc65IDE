@@ -171,6 +171,25 @@ namespace Cc65Wpf
 			CloseProject();
 		}
 
+		private void projectTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			TreeViewItem selected = e.NewValue as TreeViewItem;
+			var tag = selected.Tag as string;
+
+			// Is selected node header or source file ? ...
+			if (tag != string.Empty)
+			{
+				// Yep, so retrieve the file path and clear the editor ...
+				currentFile = tag;
+				textEditor.Clear();
+
+				// Read the file and populate the editor ...
+				var text = File.ReadAllText(currentFile);
+				textEditor.Text = text;
+				// saveToolStripMenuItem.Enabled = false;
+			}
+		}
+
 		#endregion
 
 		#region Private Methods
@@ -306,5 +325,6 @@ namespace Cc65Wpf
 		}
 
         #endregion
+
     }	
 }

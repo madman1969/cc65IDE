@@ -110,7 +110,7 @@
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <TreeView x:Name="projectTreeView" Grid.Column="0">
+            <TreeView x:Name="projectTreeView" Grid.Column="0" SelectedItemChanged="projectTreeView_SelectedItemChanged">
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="{x:Type TreeViewItem}">
                         <Setter Property="IsExpanded" Value="True" />
