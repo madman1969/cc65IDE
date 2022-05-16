@@ -1,29 +1,33 @@
-﻿<Window x:Class="Cc65Wpf.CC65SettingsWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cc65Wpf" 
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        mc:Ignorable="d"
-        Title="CC65 Settings" 
-        Height="250" 
-        Width="400"
-        Icon="/Images/commodore.png" 
-        WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+﻿<Window
+    x:Class="Cc65Wpf.CC65SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Cc65Wpf"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    mc:Ignorable="d"
+    Title="CC65 Settings"
+    Height="250"
+    Width="400"
+    Icon="/Images/Commodore/32x32/Logo.png"
+    WindowStartupLocation="CenterScreen"
+    Closed="Window_Closed">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition
+                Height="Auto" />
         </Grid.RowDefinitions>
-        <xctk:PropertyGrid 
+        <xctk:PropertyGrid
             Grid.Row="0"
-            x:Name="CC65PropertyGrid" 
+            x:Name="CC65PropertyGrid"
             ShowSearchBox="False"
             ShowTitle="False"
             ShowAdvancedOptions="False"
             ShowSummary="True"
             ShowSortOptions="False"
-            AutoGenerateProperties="True" PropertyValueChanged="CC65PropertyGrid_PropertyValueChanged" />
+            AutoGenerateProperties="True"
+            PropertyValueChanged="CC65PropertyGrid_PropertyValueChanged" />
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,9 +18,9 @@ namespace Cc65Wpf
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged 
     {
-		#region Field and properties
+		#region Private Field and properties
 
 		private Cc65Project? project;
 		private Cc65Emulators emulators;
@@ -28,6 +29,40 @@ namespace Cc65Wpf
 		FoldingManager foldingManager;
 		object foldingStrategy;
 
+        #endregion
+
+        #region Public Properties
+
+        public bool ProjectLoaded { get => Project != null; }
+		public bool CurrentFileLoaded { get => CurrentFileName != String.Empty; }
+        public Cc65Project? Project 
+		{ 
+			get => project; 
+			set 
+			{ 
+				project = value;
+				OnPropertyRaised("Project");
+				OnPropertyRaised("ProjectLoaded");
+			} 
+		}
+
+        public string CurrentFileName 
+		{ 
+			get => currentFileName;
+			set 
+			{ 
+				currentFileName = value;
+				OnPropertyRaised("CurrentFileName");
+				OnPropertyRaised("CurrentFileLoaded");
+			} 
+		}
+
+        #endregion
+
+        #region Events
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
 		#endregion
 
 		#region Class Constructor 
@@ -35,6 +70,7 @@ namespace Cc65Wpf
 		public MainWindow()
         {
             InitializeComponent();
+			this.DataContext = this;
 
 			// Load emulator settings ...
 			var filepath = Path.Combine(Directory.GetCurrentDirectory(), @"Test Files");
@@ -108,9 +144,7 @@ namespace Cc65Wpf
 		#endregion
 
 		#region Event Handlers
-
-		#endregion
-
+	
 		/// <summary>
 		/// Handle changes to caret position in the editor
 		/// </summary>
@@ -123,6 +157,8 @@ namespace Cc65Wpf
 			// do some stuff
 			caretInfo.Text = $"Line {caret.Location.Line}, Column {caret.Location.Column}";
 		}
+
+		#endregion
 
 		#region Menu Handlers
 
@@ -149,21 +185,10 @@ namespace Cc65Wpf
 
         private void CloseFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
-			// File unmodified, so just clear the edit control ...
-			if (!textEditor.IsModified)
-            {
-				textEditor.Clear();
-            }
-			else
-            {
-                PromptForModifiedFile();
-
-                textEditor.Clear();
-            }
-
+            CloseFile();
         }
 
-        private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+        private void SaveFileMenuItem_Click(object sender, RoutedEventArgs e)
         {
 			SaveFile();
         }
@@ -195,7 +220,7 @@ namespace Cc65Wpf
 				textEditor.Text = text;
 
 				// Update the currently selected file ...
-				currentFileName = currentFile;
+				CurrentFileName = currentFile;
 				textEditor.IsModified = false;
 			}
 		}
@@ -231,18 +256,30 @@ namespace Cc65Wpf
 		#region Private Methods
 
 		/// <summary>
+		/// Raise events when properties changed
+		/// </summary>
+		/// <param name="propertyname"></param>
+		private void OnPropertyRaised(string propertyname)
+		{
+			if (PropertyChanged != null)
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+			}
+		}
+
+		/// <summary>
 		/// Saves the current source file
 		/// </summary>
 		private void SaveFile()
 		{
-			if (string.IsNullOrEmpty(currentFileName))
+			if (string.IsNullOrEmpty(CurrentFileName))
 			{
 				SaveFileDialog dlg = new SaveFileDialog();
 				dlg.DefaultExt = ".txt";
 
 				if (dlg.ShowDialog() ?? false)
 				{
-					currentFileName = dlg.FileName;
+					CurrentFileName = dlg.FileName;
 				}
 				else
 				{
@@ -250,7 +287,7 @@ namespace Cc65Wpf
 				}
 			}
 
-			textEditor.Save(currentFileName);
+			textEditor.Save(CurrentFileName);
 		}
 
 		/// <summary>
@@ -264,10 +301,31 @@ namespace Cc65Wpf
 
 			if (dlg.ShowDialog() ?? false)
 			{
-				currentFileName = dlg.FileName;
-				textEditor.Load(currentFileName);
-				textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(currentFileName));
+				CurrentFileName = dlg.FileName;
+				textEditor.Load(CurrentFileName);
+				textEditor.SyntaxHighlighting = HighlightingManager.Instance.GetDefinitionByExtension(Path.GetExtension(CurrentFileName));
 			}
+		}
+
+		/// <summary>
+		/// Closes the current source file
+		/// </summary>
+		private void CloseFile()
+		{
+			// File unmodified, so just clear the edit control ...
+			if (!textEditor.IsModified)
+			{
+				textEditor.Clear();
+			}
+			else
+			{
+				PromptForModifiedFile();
+
+				textEditor.Clear();
+			}
+
+			// Reset the current file name ...
+			CurrentFileName = string.Empty;
 		}
 
 		/// <summary>
@@ -284,9 +342,10 @@ namespace Cc65Wpf
 				// Load the project JSON ...
 				projectFile = dlg.FileNames[0];
 				var json = File.ReadAllText(projectFile);
-				project = Cc65Project.FromJson(json);
+				Project = Cc65Project.FromJson(json);
 
-				projectInfo.Text = $"Project {project.ProjectName} loaded";
+				projectInfo.Text = $"Project {Project.ProjectName} loaded";
+				targetInfo.Text = $"Target: {Project.TargetPlatform}";
 
 			}
 
@@ -299,7 +358,7 @@ namespace Cc65Wpf
 		/// </summary>
 		private void CloseProject()
         {
-			project = null;
+			Project = null;
 			projectInfo.Text = "No project loaded";
 			ClearTreeView();
 			textEditor.Clear();			
@@ -324,7 +383,7 @@ namespace Cc65Wpf
             var rootNode = new TreeViewItem
             {
                 // Name = $"{project.ProjectName}",
-                Header = $"{project.ProjectName}",
+                Header = $"{Project.ProjectName}",
                 Tag = string.Empty
             };
             projectTreeView.Items.Add(rootNode);
@@ -348,24 +407,24 @@ namespace Cc65Wpf
             rootNode.Items.Add(srcFiles);
 
 			// Add the header files ...
-			foreach (var hdrfile in project.HeaderFiles)
+			foreach (var hdrfile in Project.HeaderFiles)
 			{
 				var node = new TreeViewItem
 				{
 					Header = hdrfile,
-					Tag = Path.Combine(project.WorkingDirectory, hdrfile)
+					Tag = Path.Combine(Project.WorkingDirectory, hdrfile)
 				};
 
 				hdrFiles.Items.Add(node);
 			}
 
 			// Add the source files ...
-			foreach (var srcfile in project.InputFiles)
+			foreach (var srcfile in Project.InputFiles)
 			{
 				var node = new TreeViewItem
 				{
 					Header = srcfile,
-					Tag = Path.Combine(project.WorkingDirectory, srcfile)
+					Tag = Path.Combine(Project.WorkingDirectory, srcfile)
 				};
 
 				srcFiles.Items.Add(node);
@@ -379,10 +438,10 @@ namespace Cc65Wpf
 		{
 			var builtOK = false;
 
-			outputTextBox.AppendText($"Building {project.InputFiles.Count} files for project [{project.ProjectName}] targeting [{project.TargetPlatform}]...\r\n");
+			outputTextBox.AppendText($"Building {Project.InputFiles.Count} files for project [{Project.ProjectName}] targeting [{Project.TargetPlatform}]...\r\n");
 
 			// Compile the project ...
-			var result = await Cc65Build.Compile(project);
+			var result = await Cc65Build.Compile(Project);
 
 			if (result.ExitCode != 0)
 			{
@@ -415,9 +474,9 @@ namespace Cc65Wpf
 
 			if (builtOK)
 			{
-				outputTextBox.AppendText($"Launching {project.ProjectName} in emulator ...\r\n");
+				outputTextBox.AppendText($"Launching {Project.ProjectName} in emulator ...\r\n");
 
-				var result = await Cc65Emulators.LaunchEmulator(project, emulators);
+				var result = await Cc65Emulators.LaunchEmulator(Project, emulators);
 			}
 		}
 
@@ -426,7 +485,7 @@ namespace Cc65Wpf
 		/// </summary>
 		private void PromptForModifiedFile()
 		{
-			var result = MessageBox.Show("Do you want to save the changes ?", $"{currentFileName} - File Modified !", MessageBoxButton.YesNo, MessageBoxImage.Question);
+			var result = MessageBox.Show("Do you want to save the changes ?", $"{CurrentFileName} - File Modified !", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
 			switch (result)
 			{
@@ -457,7 +516,7 @@ namespace Cc65Wpf
 			{
 				Filter = "Source Files|*.c|Header Files|*.h",
 				CheckFileExists = true,
-				InitialDirectory = project.WorkingDirectory
+				InitialDirectory = Project.WorkingDirectory
 			};
 
 			if (dlg.ShowDialog() ?? false)
@@ -485,11 +544,11 @@ namespace Cc65Wpf
 			switch (type)
 			{
 				case CC65FileTypes.SourceFile:
-					project.InputFiles.Add(Path.GetFileName(filename));
+					Project.InputFiles.Add(Path.GetFileName(filename));
 					break;
 
 				case CC65FileTypes.IncludeFile:
-					project.HeaderFiles.Add(Path.GetFileName(filename));
+					Project.HeaderFiles.Add(Path.GetFileName(filename));
 					break;
 			}
 		}
