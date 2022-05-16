@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using cc65Wrapper;
+using cc65Wrapper.Enumerations;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.Win32;
@@ -431,8 +432,70 @@ namespace Cc65Wpf
 		/// Adds an existing source/header file to the project
 		/// </summary>
 		private void AddExistingFile()
+		{
+			OpenFileDialog dlg = new OpenFileDialog
+			{
+				Filter = "Source Files|*.c|Header Files|*.h",
+				CheckFileExists = true,
+				InitialDirectory = project.WorkingDirectory
+			};
+
+			if (dlg.ShowDialog() ?? false)
+			{
+				var selectedFile = dlg.FileName;
+
+				AddFileToProject(selectedFile);
+			}
+
+			// Re-populate the tree view
+			PopulateTreeView();
+		}
+
+		/// <summary>
+		/// Adds the specified filename to the project 
+		/// </summary>
+		/// <param name="filename"></param>
+		private void AddFileToProject(string filename)
         {
-			// TODO: Flesh out adding new source/header file
+			// TODO: Fix weird issue with saving file changes after initial addition
+
+			var type = EstablishFileType(filename);
+
+			// Add to list of project files ...
+			switch (type)
+			{
+				case CC65FileTypes.SourceFile:
+					project.InputFiles.Add(Path.GetFileName(filename));
+					break;
+
+				case CC65FileTypes.IncludeFile:
+					project.HeaderFiles.Add(Path.GetFileName(filename));
+					break;
+			}
+		}
+
+		/// <summary>
+		/// Establish the file type from the filename extension
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		private CC65FileTypes EstablishFileType(string filename)
+        {
+			CC65FileTypes result = CC65FileTypes.None;
+			var ext = Path.GetExtension(filename);
+
+			switch (ext)
+            {
+				case ".h":
+					result = CC65FileTypes.IncludeFile;
+					break;
+
+				case ".c":
+					result = CC65FileTypes.SourceFile;
+					break;
+            }
+
+			return result;
         }
 
 		#endregion

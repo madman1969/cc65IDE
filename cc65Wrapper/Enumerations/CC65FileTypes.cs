@@ -1,4 +1,6 @@
-﻿namespace Cc65WinForms.Enumerations
+﻿using System;
+
+namespace cc65Wrapper.Enumerations
 {
     [Flags]
     public enum CC65FileTypes

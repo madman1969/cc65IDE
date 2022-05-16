@@ -1,5 +1,5 @@
-﻿using Cc65WinForms.Enumerations;
-using cc65Wrapper;
+﻿using cc65Wrapper;
+using cc65Wrapper.Enumerations;
 
 namespace Cc65WinForms
 {
