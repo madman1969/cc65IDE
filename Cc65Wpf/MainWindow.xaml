@@ -101,6 +101,12 @@
             <StatusBarItem x:Name="ProjectInfoStatusBarItem">
                 <TextBlock x:Name="projectInfo" Text="No Project loaded" />
             </StatusBarItem>
+            <Separator/>
+            <StatusBarItem 
+                x:Name="CaretStatusBarItem" 
+                MinWidth="100" HorizontalAlignment="Right">
+                <TextBlock x:Name="caretInfo" Text="Line 0, Column 0" HorizontalAlignment="Stretch" FontWeight="Bold" />
+            </StatusBarItem>
         </StatusBar>
         <TextBox 
             x:Name="outputTextBox" 

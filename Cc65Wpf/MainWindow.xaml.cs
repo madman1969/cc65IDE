@@ -42,6 +42,9 @@ namespace Cc65Wpf
 			var json = File.ReadAllText(filepath);
 			emulators = Cc65Emulators.FromJson(json);
 			outputTextBox.Text = string.Empty;
+
+			// Register handler for text editor caret position changes ...
+			textEditor.TextArea.Caret.PositionChanged += TextEditorCaret_PositionChanged;
 		}
 
 		#endregion
@@ -102,11 +105,28 @@ namespace Cc65Wpf
 				((XmlFoldingStrategy)foldingStrategy).UpdateFoldings(foldingManager, textEditor.Document);
 			}
 		}
-        #endregion
+		#endregion
 
-        #region Menu Handlers
+		#region Event Handlers
 
-        private void openFileClick(object sender, RoutedEventArgs e)
+		#endregion
+
+		/// <summary>
+		/// Handle changes to caret position in the editor
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void TextEditorCaret_PositionChanged(object sender, EventArgs e)
+		{
+			ICSharpCode.AvalonEdit.Editing.Caret caret = sender as ICSharpCode.AvalonEdit.Editing.Caret;
+
+			// do some stuff
+			caretInfo.Text = $"Line {caret.Location.Line}, Column {caret.Location.Column}";
+		}
+
+		#region Menu Handlers
+
+		private void openFileClick(object sender, RoutedEventArgs e)
         {
             OpenFile();
         }
