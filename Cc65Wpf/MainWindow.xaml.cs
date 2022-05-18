@@ -12,6 +12,7 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
+	// TODO: Add method to remove files from project
 	// TODO: Add project settings dialog
 	// TODO: Add WinVICE settings dialog ?
 
@@ -28,13 +29,25 @@ namespace Cc65Wpf
 		private string projectFile = string.Empty;
 		FoldingManager foldingManager;
 		object foldingStrategy;
+		private TreeViewItem selectedItem = null;
 
-        #endregion
+		#endregion
 
-        #region Public Properties
+		#region Public Properties
 
-        public bool ProjectLoaded { get => Project != null; }
+		/// <summary>
+		/// Specifies if project currently loaded
+		/// </summary>
+		public bool ProjectLoaded { get => Project != null; }
+
+		/// <summary>
+		/// Specifies if source file currently loaded
+		/// </summary>
 		public bool CurrentFileLoaded { get => CurrentFileName != String.Empty; }
+
+		/// <summary>
+		/// The current project instance
+		/// </summary>
         public Cc65Project? Project 
 		{ 
 			get => project; 
@@ -46,6 +59,9 @@ namespace Cc65Wpf
 			} 
 		}
 
+		/// <summary>
+		/// The path to the current source file
+		/// </summary>
         public string CurrentFileName 
 		{ 
 			get => currentFileName;
@@ -54,6 +70,19 @@ namespace Cc65Wpf
 				currentFileName = value;
 				OnPropertyRaised("CurrentFileName");
 				OnPropertyRaised("CurrentFileLoaded");
+			} 
+		}
+
+		/// <summary>
+		/// The path to the current project file
+		/// </summary>
+        public string ProjectFile 
+		{ 
+			get => projectFile; 
+			set
+            {
+				projectFile = value;
+				OnPropertyRaised("ProjectFile");
 			} 
 		}
 
@@ -172,7 +201,12 @@ namespace Cc65Wpf
             SaveFile();
         }
 
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+		private void saveProjectClick(object sender, RoutedEventArgs e)
+		{
+			SaveProject();
+		}
+
+		private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
 			textEditor.Clear();
 			Application.Current.Shutdown();			
@@ -205,23 +239,43 @@ namespace Cc65Wpf
 
 		private void projectTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
-			TreeViewItem selected = e.NewValue as TreeViewItem;
-			var tag = selected.Tag as string;
+			// Bail if dodgy item selected ...
+			if (e.NewValue == null || projectTreeView.SelectedItem == null)
+				return;
 
-			// Is selected node header or source file ? ...
-			if (tag != string.Empty)
-			{
-				// Yep, so retrieve the file path and clear the editor ...
-				var currentFile = tag;
-				textEditor.Clear();
+			//// Retrieve the tag from the selected tree node ...
+			selectedItem = e.NewValue as TreeViewItem;
+			// TreeViewItem selected = projectTreeView.SelectedItem as TreeViewItem;
+			var tag = selectedItem.Tag as string;
 
-				// Read the file and populate the editor ...
-				var text = File.ReadAllText(currentFile);
-				textEditor.Text = text;
+            // Is selected node header or source file ? ...
+            if (tag != string.Empty)
+            {
+                // Yep, so retrieve the file path and clear the editor ...
+                var currentFile = tag;
+                textEditor.Clear();
 
-				// Update the currently selected file ...
-				CurrentFileName = currentFile;
-				textEditor.IsModified = false;
+                // Read the file and populate the editor ...
+                var text = File.ReadAllText(currentFile);
+                textEditor.Text = text;
+
+                // Update the currently selected file ...
+                CurrentFileName = currentFile;
+                textEditor.IsModified = false;
+
+				// Setup the file context menu
+				projectTreeView.ContextMenu = projectTreeView.Resources["FileContext"] as ContextMenu;
+			}
+			else
+            {
+				// Nope, so setup the file context menu ...
+				switch (selectedItem.Header)
+				{
+					case "Header Files":
+					case "Source Files":
+						projectTreeView.ContextMenu = projectTreeView.Resources["FolderContext"] as ContextMenu;
+						break;
+				}
 			}
 		}
 
@@ -249,6 +303,26 @@ namespace Cc65Wpf
 		private void AddExistingFileMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			AddExistingFile();
+		}
+
+		private void AddNewFileMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			AddNewFile();
+		}
+
+		private void RemoveFileMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			// Retrieve filename from current treeview selection ...
+			var file = selectedItem.Header as string ?? string.Empty;
+
+			// Close file and clear from the editor ...
+			CloseFile();
+
+			// Remove from project ...
+			RemoveFileFromProject(file);
+
+			// Re-populate the tree view
+			PopulateTreeView();
 		}
 
 		#endregion
@@ -326,7 +400,39 @@ namespace Cc65Wpf
 
 			// Reset the current file name ...
 			CurrentFileName = string.Empty;
-		}
+		}		
+
+		/// <summary>
+		/// Saves the current project settings
+		/// </summary>
+		private void SaveProject()
+        {
+			// Bail if no project loaded ...
+			if (Project == null)
+				return;
+
+			// Convert project to JSON ...
+			var asJSON = Project.AsJson();
+
+			// Do we have a project filepath ? ...
+			if (string.IsNullOrEmpty(ProjectFile))
+            {
+				SaveFileDialog dlg = new SaveFileDialog();
+				dlg.DefaultExt = ".json";
+
+				if (dlg.ShowDialog() ?? false)
+				{
+					ProjectFile = dlg.FileName;
+				}
+				else
+				{
+					return;
+				}
+			}
+
+			// Write project details to file ...
+			File.WriteAllText(ProjectFile, asJSON);
+        }
 
 		/// <summary>
 		/// Opens the project.
@@ -340,8 +446,8 @@ namespace Cc65Wpf
 			if (dlg.ShowDialog() ?? false)
 			{
 				// Load the project JSON ...
-				projectFile = dlg.FileNames[0];
-				var json = File.ReadAllText(projectFile);
+				ProjectFile = dlg.FileNames[0];
+				var json = File.ReadAllText(ProjectFile);
 				Project = Cc65Project.FromJson(json);
 
 				projectInfo.Text = $"Project {Project.ProjectName} loaded";
@@ -508,6 +614,35 @@ namespace Cc65Wpf
         }
 
 		/// <summary>
+		/// Adds a new source/header file to the project
+		/// </summary>
+		private void AddNewFile()
+        {
+			OpenFileDialog dlg = new OpenFileDialog
+			{
+				Filter = "Source Files|*.c|Header Files|*.h",
+				CheckFileExists = false,
+				InitialDirectory = Project.WorkingDirectory
+			};
+
+			if (dlg.ShowDialog() ?? false)
+			{
+				var selectedFile = dlg.FileName;
+
+				// Create empty file ...
+				using (var fs = File.Create(selectedFile))
+                {
+					fs.Flush();
+                }
+
+				AddFileToProject(selectedFile);
+			}
+
+			// Re-populate the tree view
+			PopulateTreeView();
+		}
+
+		/// <summary>
 		/// Adds an existing source/header file to the project
 		/// </summary>
 		private void AddExistingFile()
@@ -554,6 +689,32 @@ namespace Cc65Wpf
 		}
 
 		/// <summary>
+		/// Removes the specified header/source file from the project
+		/// </summary>
+		/// <param name="filename"></param>
+		private void RemoveFileFromProject(string filename)
+		{
+			var type = EstablishFileType(filename);
+
+			switch (type)
+            {
+				// Remove source file ...
+				case CC65FileTypes.SourceFile:
+					Project.InputFiles.Remove(filename);
+					break;
+
+				// Remove header file ...
+				case CC65FileTypes.IncludeFile:
+					Project.HeaderFiles.Remove(filename);
+					break;
+
+				// Unknown file type, so do nothing ...
+				default:
+					break;
+            }
+		}
+
+		/// <summary>
 		/// Establish the file type from the filename extension
 		/// </summary>
 		/// <param name="filename"></param>
@@ -572,12 +733,17 @@ namespace Cc65Wpf
 				case ".c":
 					result = CC65FileTypes.SourceFile;
 					break;
+
+				// Unknown file type ...
+				default:
+					result = CC65FileTypes.None;
+					break;
             }
 
 			return result;
         }
 
-		#endregion
+        #endregion
 
 
     }	

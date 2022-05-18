@@ -112,7 +112,7 @@ namespace cc65Wrapper
         /// <returns></returns>
         public string AsJson()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>

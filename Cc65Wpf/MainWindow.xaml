@@ -52,7 +52,14 @@
                 <MenuItem
                     x:Name="SaveProjectMenuItem"
                     IsEnabled="{Binding ProjectLoaded, Mode=OneWay}"
-                    Header="Save _Project" />
+                    Header="Save _Project"
+                    Click="saveProjectClick">
+                    <MenuItem.Icon>
+                        <Image
+                            Source="/Images/Commodore/32x32/1541.png"
+                            Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem
                     x:Name="SaveFileMenuItem"
                     Header="Save _File"
@@ -89,7 +96,8 @@
                     Header="Add Files">
                     <MenuItem
                         x:Name="AddNewFileMenuItem"
-                        Header="New File" />
+                        Header="New File"
+                        Click="AddNewFileMenuItem_Click" />
                     <MenuItem
                         x:Name="AddExistingFileMenuItem"
                         Header="Existing File"
@@ -140,16 +148,18 @@
             x:Name="AppToolBar"
             DockPanel.Dock="Top">
             <Button
-                x:Name="OpenButton"
-                ToolTip="Open a file"
-                Click="openFileClick">
+                x:Name="SaveProjectButton"
+                ToolTip="Save current project"
+                IsEnabled="{Binding ProjectLoaded, Mode=OneWay}"
+                Click="saveProjectClick">
                 <Image
-                    Source="/Images/Open.png"
-                    Height="16" />
+                    Source="/Images/Commodore/32x32/1541.png"
+                    Height="24" />
             </Button>
             <Button
-                x:Name="SaveButton"
+                x:Name="SaveFileButton"
                 ToolTip="Save current file"
+                IsEnabled="{Binding CurrentFileLoaded, Mode=OneWay}"
                 Click="saveFileClick">
                 <Image
                     Source="/Images/Commodore/32x32/Disk.png"
@@ -300,6 +310,31 @@
                 x:Name="projectTreeView"
                 Grid.Column="0"
                 SelectedItemChanged="projectTreeView_SelectedItemChanged">
+                <TreeView.Resources>
+                    <ContextMenu
+                        x:Key="FileContext"
+                        StaysOpen="true">
+                        <MenuItem
+                            x:Name="RemoveFileMenuItem"
+                            Header="Remove"
+                            Click="RemoveFileMenuItem_Click" />
+                    </ContextMenu>
+                    <ContextMenu
+                        x:Key="FolderContext"
+                        StaysOpen="true">
+                        <MenuItem
+                            Header="Add...">
+                            <MenuItem
+                                x:Name="AddNewFileCtxItem"
+                                Header="New File"
+                                Click="AddNewFileMenuItem_Click" />
+                            <MenuItem
+                                x:Name="AddExistingFileCtxItem"
+                                Header="Existing File"
+                                Click="AddExistingFileMenuItem_Click" />
+                        </MenuItem>
+                    </ContextMenu>
+                </TreeView.Resources>
                 <TreeView.ItemContainerStyle>
                     <Style
                         TargetType="{x:Type TreeViewItem}">
