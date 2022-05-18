@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +13,7 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Add method to remove files from project
+	// TODO: Enable the code folding in the text editor
 	// TODO: Add project settings dialog
 	// TODO: Add WinVICE settings dialog ?
 
@@ -25,7 +26,7 @@ namespace Cc65Wpf
 
 		private Cc65Project? project;
 		private Cc65Emulators emulators;
-		private string currentFileName = string.Empty;		
+		private string currentFileName = string.Empty;
 		private string projectFile = string.Empty;
 		FoldingManager foldingManager;
 		object foldingStrategy;
@@ -110,6 +111,10 @@ namespace Cc65Wpf
 
 			// Register handler for text editor caret position changes ...
 			textEditor.TextArea.Caret.PositionChanged += TextEditorCaret_PositionChanged;
+
+			// Set the column ruler at 80 characters ...
+			textEditor.TextArea.Options.ColumnRulerPosition = 80;
+			textEditor.TextArea.Options.ShowColumnRuler = true;
 		}
 
 		#endregion
@@ -170,6 +175,7 @@ namespace Cc65Wpf
 				((XmlFoldingStrategy)foldingStrategy).UpdateFoldings(foldingManager, textEditor.Document);
 			}
 		}
+
 		#endregion
 
 		#region Event Handlers
@@ -325,6 +331,21 @@ namespace Cc65Wpf
 			PopulateTreeView();
 		}
 
+		private void TargetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			// Ignore changes if no project loaded
+			if (!ProjectLoaded)
+				return;
+
+			// Convert selection to project type enum ...
+			var target = (CC65ProjectTypes)TargetComboBox.SelectedIndex;
+
+			// Change the target platform for the current project ...
+			Project.TargetPlatform = target.ToString();			
+
+			DisplayTargetPlatform();
+		}
+
 		#endregion
 
 		#region Private Methods
@@ -444,30 +465,48 @@ namespace Cc65Wpf
 			dlg.CheckFileExists = true;
 
 			if (dlg.ShowDialog() ?? false)
-			{
-				// Load the project JSON ...
-				ProjectFile = dlg.FileNames[0];
-				var json = File.ReadAllText(ProjectFile);
-				Project = Cc65Project.FromJson(json);
+            {
+                // Load the project JSON ...
+                ProjectFile = dlg.FileNames[0];
+                var json = File.ReadAllText(ProjectFile);
+                Project = Cc65Project.FromJson(json);
 
-				projectInfo.Text = $"Project {Project.ProjectName} loaded";
-				targetInfo.Text = $"Target: {Project.TargetPlatform}";
+				// Select the correct target for the project ...
+				Enum.TryParse(Project.TargetPlatform, out CC65ProjectTypes target);
+				TargetComboBox.SelectedIndex = (int)target;
 
-			}
+				var msg = $"Project {Project.ProjectName} loaded";
+				projectInfo.Text = msg;
+				outputTextBox.AppendText($"{msg}\r\n");
+                DisplayTargetPlatform();
+            }
 
 			// Populate the tree view
 			PopulateTreeView();
 		}
 
 		/// <summary>
-		/// Closes the current project
+		/// Display the current target platform in status bar 
 		/// </summary>
-		private void CloseProject()
+        private void DisplayTargetPlatform()
         {
+			if (!ProjectLoaded)
+				targetInfo.Text = $"Target: NONE";
+			else
+				targetInfo.Text = $"Target: {Project.TargetPlatform}";
+        }
+
+        /// <summary>
+        /// Closes the current project
+        /// </summary>
+        private void CloseProject()
+        {
+			outputTextBox.AppendText($"Project {Project.ProjectName} closed\r\n");
 			Project = null;
 			projectInfo.Text = "No project loaded";
 			ClearTreeView();
 			textEditor.Clear();			
+			DisplayTargetPlatform();
 		}
 
 		/// <summary>
@@ -744,7 +783,5 @@ namespace Cc65Wpf
         }
 
         #endregion
-
-
     }	
 }

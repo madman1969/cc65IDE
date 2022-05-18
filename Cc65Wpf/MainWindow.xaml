@@ -88,7 +88,7 @@
                     <MenuItem.Icon>
                         <Image
                             Source="/Images/work-process.png"
-                            Height="16" />
+                            Height="24" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -207,6 +207,64 @@
                 <Image
                     Source="/Images/Redo.png"
                     Height="16" />
+            </Button>
+            <Separator />
+            <Button
+                x:Name="TargetButton"
+                IsEnabled="{Binding ProjectLoaded, Mode=OneWay}" >
+                <WrapPanel>
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Text="Target Platform "
+                        VerticalAlignment="Center" />
+                    <ComboBox
+                        x:Name="TargetComboBox"
+                        Width="120"
+                        SelectedIndex="0"
+                        SelectionChanged="TargetComboBox_SelectionChanged">
+                        <ComboBoxItem
+                            Tag="c64">
+                            <WrapPanel>
+                                <Image
+                                    Source="/Images/Commodore/32x32/C64.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="C64"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="c128">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/C128.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="C128"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="pet">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/Logo.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="PET"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                </WrapPanel>
             </Button>
             <Separator />
             <Button
@@ -350,7 +408,7 @@
                 FontFamily="Consolas"
                 FontSize="10pt"
                 SyntaxHighlighting="C++"
-                ShowLineNumbers="True"
+                ShowLineNumbers="True"                
                 Margin="2,0,2,0"
                 Grid.ColumnSpan="2" />
             <GridSplitter
