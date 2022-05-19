@@ -1,4 +1,6 @@
 ﻿using cc65Wrapper;
+using cc65Wrapper.Enumerations;
+using System;
 using System.Windows;
 
 namespace Cc65Wpf
@@ -19,6 +21,9 @@ namespace Cc65Wpf
         public bool OptimiseCode { get => project.OptimiseCode; set => project.OptimiseCode = value; }
         public int Version { get => project.Version; set => project.Version = value; }
 
+        int targetType;
+        public int TargetType { get => (int)Enum.Parse(typeof(CC65ProjectTypes), TargetPlatform); set => targetType = value; }
+
         public ProjectSettings()
         {
             InitializeComponent();
@@ -27,6 +32,9 @@ namespace Cc65Wpf
 
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
+            // Messy conversion of selected target back to string ...
+            project.TargetPlatform = ((CC65ProjectTypes)targetType).ToString();
+
             this.Close();
         }
     }

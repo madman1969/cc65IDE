@@ -114,7 +114,7 @@
                 Text="{Binding Project.WorkingDirectory}"
                 VerticalAlignment="Center"
                 Width="230" />
-            <TextBox
+            <!--<TextBox
                 x:Name="TargetPlatformTextBox"
                 Grid.Row="2"
                 Grid.Column="1"
@@ -123,7 +123,68 @@
                 TextWrapping="Wrap"
                 Text="{Binding Project.TargetPlatform}"
                 VerticalAlignment="Center"
-                Width="50" />
+                Width="50" />-->
+            <Button
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                x:Name="TargetButton"
+                IsEnabled="{Binding ProjectLoaded, Mode=OneWay}"
+                HorizontalAlignment="Left">
+                <WrapPanel>
+                    <TextBlock
+                        TextWrapping="Wrap"
+                        Text="Target Platform "
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center" />
+                    <ComboBox
+                        x:Name="TargetComboBox"
+                        Width="90"
+                        SelectedIndex="{Binding TargetType }" >
+                        <ComboBoxItem
+                            Tag="c64">
+                            <WrapPanel>
+                                <Image
+                                    Source="/Images/Commodore/32x32/C64.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="C64"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="c128">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/C128.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="C128"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="pet">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/Logo.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="PET"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                </WrapPanel>
+            </Button>
             <TextBox
                 x:Name="OutputFileTextBox"
                 Grid.Row="3"
@@ -134,7 +195,7 @@
                 Text="{Binding Project.OutputFile}"
                 VerticalAlignment="Center"
                 Width="80" />
-            <TextBox
+            <!--<TextBox
                 x:Name="OptimiseTextBox"
                 Grid.Row="4"
                 Grid.Column="1"
@@ -143,7 +204,15 @@
                 TextWrapping="Wrap"
                 Text="{Binding Project.OptimiseCode}"
                 VerticalAlignment="Center"
-                Width="50" />
+                Width="50" />-->
+            <CheckBox
+                x:Name="OptimiseCheckBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                IsChecked="{Binding Project.OptimiseCode}"
+                Content="" />
             <TextBox
                 x:Name="VersionTextBox"
                 Grid.Row="5"
@@ -151,9 +220,11 @@
                 HorizontalAlignment="Left"
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
+                IsReadOnly="True"
                 Text="{Binding Project.Version}"
                 VerticalAlignment="Center"
-                Width="80" />
+                Width="80"
+                Background="#FFD1CDCD" />
             <TextBox
                 x:Name="OutputFilePathTextBox"
                 Grid.Row="6"
@@ -164,7 +235,8 @@
                 IsReadOnly="True"
                 Text="{Binding Project.FullOutputFilePath, Mode=OneWay}"
                 VerticalAlignment="Center"
-                Width="230" />
+                Width="230"
+                Background="#FFD1CDCD" />
         </Grid>
         <Button
             x:Name="OkButton"

@@ -13,8 +13,10 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Add project settings dialog
 	// TODO: Add mechanism to create a new project
+	// TODO: Enable copy/paste
+	// TODO: Enable 'goto line num' functionality
+	// TODO: Add find functionality
 	// TODO: Add WinVICE settings dialog ?
 	
     /// <summary>
@@ -115,6 +117,7 @@ namespace Cc65Wpf
 			// Set the column ruler at 80 characters ...
 			textEditor.TextArea.Options.ColumnRulerPosition = 80;
 			textEditor.TextArea.Options.ShowColumnRuler = true;
+			textEditor.TextArea.Options.IndentationSize = 2;
 
 			// Setup code folding ...
 			foldingManager = FoldingManager.Install(textEditor.TextArea);
@@ -337,21 +340,15 @@ namespace Cc65Wpf
 		}
 
 		private void TargetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			// Ignore changes if no project loaded
-			if (!ProjectLoaded)
-				return;
+        {
+            // Ignore changes if no project loaded
+            if (!ProjectLoaded)
+                return;
 
-			// Convert selection to project type enum ...
-			var target = (CC65ProjectTypes)TargetComboBox.SelectedIndex;
+            UpdateTargetSelection();
+        }
 
-			// Change the target platform for the current project ...
-			Project.TargetPlatform = target.ToString();			
-
-			DisplayTargetPlatform();
-		}
-
-		private void textEditor_TextChanged(object sender, EventArgs e)
+        private void textEditor_TextChanged(object sender, EventArgs e)
 		{
 			UpdateFoldings();
 		}
@@ -367,6 +364,10 @@ namespace Cc65Wpf
 			var dlg = new ProjectSettings();
 			dlg.Project = project;
 			dlg.ShowDialog();
+
+			// Handle changes to selected target platform ...
+			TargetComboBox.SelectedIndex = dlg.TargetType;
+			UpdateTargetSelection();
 		}
 
 		#endregion
@@ -383,6 +384,20 @@ namespace Cc65Wpf
 			{
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
 			}
+		}
+
+		/// <summary>
+		/// Update the target platform selection
+		/// </summary>
+		private void UpdateTargetSelection()
+		{
+			// Convert selection to project type enum ...
+			var target = (CC65ProjectTypes)TargetComboBox.SelectedIndex;
+
+			// Change the target platform for the current project ...
+			Project.TargetPlatform = target.ToString();
+
+			DisplayTargetPlatform();
 		}
 
 		/// <summary>
