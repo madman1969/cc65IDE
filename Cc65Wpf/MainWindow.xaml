@@ -79,29 +79,23 @@
             </MenuItem>
             <MenuItem
                 x:Name="ProjectMenuItem"
-                Header="_Project"
-                Click="BuildButton_Click"
+                Header="_Project"                
                 IsEnabled="{Binding ProjectLoaded, Mode=OneWay}">
                 <MenuItem
+                    x:Name="ProjectSettingsMenuItem"
+                    Header="Project Settings"
+                    Click="ProjectSettingsMenuItem_Click">
+                </MenuItem>
+                <Separator />
+                <MenuItem
                     x:Name="BuildProjectMenuItem"
+                    Click="BuildButton_Click"
                     Header="Build Project">
                     <MenuItem.Icon>
                         <Image
                             Source="/Images/work-process.png"
                             Height="24" />
                     </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem
-                    x:Name="AddFilesMenuItem"
-                    Header="Add Files">
-                    <MenuItem
-                        x:Name="AddNewFileMenuItem"
-                        Header="New File"
-                        Click="AddNewFileMenuItem_Click" />
-                    <MenuItem
-                        x:Name="AddExistingFileMenuItem"
-                        Header="Existing File"
-                        Click="AddExistingFileMenuItem_Click" />
                 </MenuItem>
                 <MenuItem
                     x:Name="ExecuteMenuItem"

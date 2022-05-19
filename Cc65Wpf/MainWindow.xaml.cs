@@ -16,8 +16,7 @@ namespace Cc65Wpf
 	// TODO: Add project settings dialog
 	// TODO: Add mechanism to create a new project
 	// TODO: Add WinVICE settings dialog ?
-	// TODO: Add About dialog
-
+	
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -360,6 +359,13 @@ namespace Cc65Wpf
 		private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			var dlg = new About();
+			dlg.ShowDialog();
+		}
+
+		private void ProjectSettingsMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			var dlg = new ProjectSettings();
+			dlg.Project = project;
 			dlg.ShowDialog();
 		}
 
@@ -797,8 +803,6 @@ namespace Cc65Wpf
 			return result;
         }
 
-
-        #endregion
-
+        #endregion        
     }	
 }
