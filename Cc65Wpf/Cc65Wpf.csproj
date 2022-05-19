@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="commodore.png" />
     <None Remove="Images\Cc65-logo.png" />
     <None Remove="Images\Commodore\32X32\1541-II.png" />
     <None Remove="Images\Commodore\32X32\1541.png" />
@@ -28,6 +29,7 @@
     <None Remove="Images\Commodore\32X32\Tac-2.png" />
     <None Remove="Images\Commodore\32X32\Tape.png" />
     <None Remove="Images\Commodore\32X32\Vic20.png" />
+    <None Remove="Logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="commodore.png" />
     <Resource Include="Images\C64-icon.png" />
     <Resource Include="Images\Cc65-logo.png" />
     <Resource Include="Images\commodore.png" />
@@ -70,6 +73,7 @@
     <Resource Include="Images\Save.png" />
     <Resource Include="Images\Undo.png" />
     <Resource Include="Images\work-process.png" />
+    <Resource Include="Logo.png" />
   </ItemGroup>
 
 </Project>

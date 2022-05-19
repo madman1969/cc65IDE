@@ -141,7 +141,9 @@
                 x:Name="HelpMenuItem"
                 Header="_Help">
                 <MenuItem
-                    Header="About" />
+                    x:Name="AboutMenuItem"
+                    Header="About"
+                    Click="AboutMenuItem_Click" />
             </MenuItem>
         </Menu>
         <ToolBar
