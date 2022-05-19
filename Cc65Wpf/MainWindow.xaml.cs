@@ -13,7 +13,6 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Enable the code folding in the text editor
 	// TODO: Add project settings dialog
 	// TODO: Add WinVICE settings dialog ?
 
@@ -115,6 +114,11 @@ namespace Cc65Wpf
 			// Set the column ruler at 80 characters ...
 			textEditor.TextArea.Options.ColumnRulerPosition = 80;
 			textEditor.TextArea.Options.ShowColumnRuler = true;
+
+			// Setup code folding ...
+			foldingManager = FoldingManager.Install(textEditor.TextArea);
+			textEditor.TextArea.IndentationStrategy = new ICSharpCode.AvalonEdit.Indentation.CSharp.CSharpIndentationStrategy(textEditor.Options);
+			foldingStrategy = new BraceFoldingStrategy();
 		}
 
 		#endregion
@@ -344,6 +348,11 @@ namespace Cc65Wpf
 			Project.TargetPlatform = target.ToString();			
 
 			DisplayTargetPlatform();
+		}
+
+		private void textEditor_TextChanged(object sender, EventArgs e)
+		{
+			UpdateFoldings();
 		}
 
 		#endregion
@@ -710,8 +719,6 @@ namespace Cc65Wpf
 		/// <param name="filename"></param>
 		private void AddFileToProject(string filename)
         {
-			// TODO: Fix weird issue with saving file changes after initial addition
-
 			var type = EstablishFileType(filename);
 
 			// Add to list of project files ...
@@ -783,5 +790,7 @@ namespace Cc65Wpf
         }
 
         #endregion
+
+
     }	
 }

@@ -410,7 +410,8 @@
                 SyntaxHighlighting="C++"
                 ShowLineNumbers="True"                
                 Margin="2,0,2,0"
-                Grid.ColumnSpan="2" />
+                Grid.ColumnSpan="2"
+                TextChanged="textEditor_TextChanged" />
             <GridSplitter
                 Grid.Column="1"
                 Width="4"
