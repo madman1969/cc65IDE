@@ -9,6 +9,7 @@ using cc65Wrapper;
 using cc65Wrapper.Enumerations;
 using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Search;
 using Microsoft.Win32;
 
 namespace Cc65Wpf
@@ -118,6 +119,10 @@ namespace Cc65Wpf
 			textEditor.TextArea.Options.ColumnRulerPosition = 80;
 			textEditor.TextArea.Options.ShowColumnRuler = true;
 			textEditor.TextArea.Options.IndentationSize = 2;
+
+			// Enable the seach functionality ...
+			SearchPanel.Install(textEditor);
+			
 
 			// Setup code folding ...
 			foldingManager = FoldingManager.Install(textEditor.TextArea);
