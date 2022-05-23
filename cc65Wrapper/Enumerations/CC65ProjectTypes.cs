@@ -9,6 +9,7 @@
         c128,
         pet, 
         vic20,
-        plus4
+        plus4,
+        c16
     }
 }

@@ -153,6 +153,7 @@ namespace cc65Wrapper
                     break;
 
                 case "plus4":
+                case "c16":
                     result = emulators.plus4Path;
                     break;
 

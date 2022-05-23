@@ -310,6 +310,20 @@
                                     VerticalAlignment="Center" />
                             </WrapPanel>
                         </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="c16">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/C16.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="C16"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
                     </ComboBox>
                 </WrapPanel>
             </Button>
