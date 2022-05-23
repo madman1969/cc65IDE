@@ -7,6 +7,8 @@
     {
         c64 = 0,
         c128,
-        pet
+        pet, 
+        vic20,
+        plus4
     }
 }

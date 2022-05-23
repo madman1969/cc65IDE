@@ -14,8 +14,7 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Make 'Project Settings' modal
-	// TODO: Add mechanism to create a new project
+	// TODO: Add support for other CBM targets
 	// TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
 	// TODO: Add WinVICE settings dialog ?
 	

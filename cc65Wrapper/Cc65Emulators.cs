@@ -35,6 +35,10 @@ namespace cc65Wrapper
         /// </value>
         public string petPath { get; set; }
 
+        public string vic20Path { get; set; }
+
+        public string plus4Path { get; set; }
+
         #endregion
 
         #region Class Constructor
@@ -47,6 +51,8 @@ namespace cc65Wrapper
             c64Path = string.Empty;
             c128Path = string.Empty;
             petPath = string.Empty;
+            vic20Path = string.Empty;   
+            plus4Path = string.Empty;
         }
 
         #endregion
@@ -140,6 +146,14 @@ namespace cc65Wrapper
 
                 case "c128":
                     result = emulators.c128Path;
+                    break;
+
+                case "vic20":
+                    result = emulators.vic20Path;
+                    break;
+
+                case "plus4":
+                    result = emulators.plus4Path;
                     break;
 
                 default:

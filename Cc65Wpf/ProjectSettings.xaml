@@ -183,6 +183,34 @@
                                     VerticalAlignment="Center" />
                             </WrapPanel>
                         </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="vic20">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/Vic20.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="VIC20"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem
+                            Tag="plus4">
+                            <WrapPanel
+                                Orientation="Horizontal">
+                                <Image
+                                    Source="/Images/Commodore/32x32/Plus4.png"
+                                    Height="24"
+                                    Margin="0,0,5,0" />
+                                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Text="Plus 4"
+                                    VerticalAlignment="Center" />
+                            </WrapPanel>
+                        </ComboBoxItem>
                     </ComboBox>
                 </WrapPanel>
             </Button>
