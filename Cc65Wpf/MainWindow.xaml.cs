@@ -14,10 +14,9 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
+	// TODO: Make 'Project Settings' modal
 	// TODO: Add mechanism to create a new project
-	// TODO: Enable copy/paste
-	// TODO: Enable 'goto line num' functionality
-	// TODO: Add find functionality
+	// TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
 	// TODO: Add WinVICE settings dialog ?
 	
     /// <summary>
@@ -365,14 +364,13 @@ namespace Cc65Wpf
 		}
 
 		private void ProjectSettingsMenuItem_Click(object sender, RoutedEventArgs e)
-		{
-			var dlg = new ProjectSettings();
-			dlg.Project = project;
-			dlg.ShowDialog();
+        {
+            DisplayProjectSettings();
+        }
 
-			// Handle changes to selected target platform ...
-			TargetComboBox.SelectedIndex = dlg.TargetType;
-			UpdateTargetSelection();
+        private void NewProjectMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			CreateNewProject();
 		}
 
 		#endregion
@@ -464,15 +462,74 @@ namespace Cc65Wpf
 
 			// Reset the current file name ...
 			CurrentFileName = string.Empty;
-		}		
+		}
+
+		/// <summary>
+		/// Display the current project settings 
+		/// </summary>
+		private bool DisplayProjectSettings()
+		{
+			var dlg = new ProjectSettings();
+			dlg.Project = project;
+			dlg.ShowDialog();
+
+			// Handle changes to selected target platform ...
+			TargetComboBox.SelectedIndex = dlg.TargetType;
+			UpdateTargetSelection();
+
+			return dlg.CanSave;
+		}
+
+		/// <summary>
+		/// Creates a new empty project
+		/// </summary>
+		private void CreateNewProject()
+        {
+			// Check if project already loaded ...
+			if (ProjectLoaded)
+            {
+				// Save current project first !
+				SaveProject();
+				CloseFile();
+            }
+
+			// Clear the existing project tree ...
+			ClearTreeView();
+
+			// Create empty project ...
+			project = new Cc65Project();
+
+			// Display the project settings dialog ...
+			var result = DisplayProjectSettings();
+
+			// Did the user setup a kosher project ? ...
+			if (result)
+            {
+				// Yep, so update everything ...
+				OnPropertyRaised("Project");
+				OnPropertyRaised("ProjectLoaded");				
+
+				// Populate the tree view
+				PopulateTreeView();
+			}
+			else
+            {
+				// Nope, so nuke the project ...
+				project = null;
+            }
+
+			// Update status bar items ...
+			DisplayLoadedProject();
+			DisplayTargetPlatform();
+		}
 
 		/// <summary>
 		/// Saves the current project settings
 		/// </summary>
 		private void SaveProject()
         {
-			// Bail if no project loaded ...
-			if (Project == null)
+			// Bail if no project loaded or unamed ...
+			if (Project == null || string.IsNullOrEmpty(Project.ProjectName))
 				return;
 
 			// Convert project to JSON ...
@@ -482,6 +539,7 @@ namespace Cc65Wpf
 			if (string.IsNullOrEmpty(ProjectFile))
             {
 				SaveFileDialog dlg = new SaveFileDialog();
+				dlg.Filter = "Project Files|*.json";
 				dlg.DefaultExt = ".json";
 
 				if (dlg.ShowDialog() ?? false)
@@ -514,23 +572,40 @@ namespace Cc65Wpf
                 var json = File.ReadAllText(ProjectFile);
                 Project = Cc65Project.FromJson(json);
 
-				// Select the correct target for the project ...
-				Enum.TryParse(Project.TargetPlatform, out CC65ProjectTypes target);
-				TargetComboBox.SelectedIndex = (int)target;
+                // Select the correct target for the project ...
+                Enum.TryParse(Project.TargetPlatform, out CC65ProjectTypes target);
+                TargetComboBox.SelectedIndex = (int)target;
 
-				var msg = $"Project {Project.ProjectName} loaded";
-				projectInfo.Text = msg;
-				outputTextBox.AppendText($"{msg}\r\n");
+				// Update status bar items ...
+                DisplayLoadedProject();
                 DisplayTargetPlatform();
             }
 
-			// Populate the tree view
-			PopulateTreeView();
+            // Populate the tree view
+            PopulateTreeView();
 		}
 
 		/// <summary>
-		/// Display the current target platform in status bar 
+		/// Displays the details of the loaded project
 		/// </summary>
+        private void DisplayLoadedProject()
+        {
+			if (Project != null)
+            {
+				var msg = $"Project {Project.ProjectName} loaded";
+				projectInfo.Text = msg;
+				outputTextBox.AppendText($"{msg}\r\n");
+			}
+			else
+            {
+				projectInfo.Text = "No project loaded";
+			}
+
+        }
+
+        /// <summary>
+        /// Display the current target platform in status bar 
+        /// </summary>
         private void DisplayTargetPlatform()
         {
 			if (!ProjectLoaded)
@@ -545,10 +620,12 @@ namespace Cc65Wpf
         private void CloseProject()
         {
 			outputTextBox.AppendText($"Project {Project.ProjectName} closed\r\n");
-			Project = null;
-			projectInfo.Text = "No project loaded";
+			Project = null;			
 			ClearTreeView();
-			textEditor.Clear();			
+			textEditor.Clear();
+
+			// Update status bar items ...
+			DisplayLoadedProject();
 			DisplayTargetPlatform();
 		}
 
@@ -823,6 +900,7 @@ namespace Cc65Wpf
 			return result;
         }
 
-        #endregion        
+        #endregion
+
     }	
 }

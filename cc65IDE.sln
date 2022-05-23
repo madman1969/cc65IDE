@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65Wrapper", "cc65Wrapper\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cc65WrapperTests", "cc65WrapperTests\cc65WrapperTests.csproj", "{C358012C-71F8-4073-9A65-21013750C2FD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cc65WinForms", "Cc65WinForms\Cc65WinForms.csproj", "{3124B0FA-5EC5-4244-84DE-986B01DB23F0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cc65Wpf", "Cc65Wpf\Cc65Wpf.csproj", "{D30ADF91-2AD6-4976-B2AB-8BE091267FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cc65Wpf", "Cc65Wpf\Cc65Wpf.csproj", "{D30ADF91-2AD6-4976-B2AB-8BE091267FD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{C358012C-71F8-4073-9A65-21013750C2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C358012C-71F8-4073-9A65-21013750C2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C358012C-71F8-4073-9A65-21013750C2FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3124B0FA-5EC5-4244-84DE-986B01DB23F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3124B0FA-5EC5-4244-84DE-986B01DB23F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3124B0FA-5EC5-4244-84DE-986B01DB23F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3124B0FA-5EC5-4244-84DE-986B01DB23F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D30ADF91-2AD6-4976-B2AB-8BE091267FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D30ADF91-2AD6-4976-B2AB-8BE091267FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D30ADF91-2AD6-4976-B2AB-8BE091267FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU

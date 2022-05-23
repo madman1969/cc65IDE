@@ -12,7 +12,8 @@
     Icon="/Images/Commodore/32X32/Logo.png"
     WindowStyle="ToolWindow"
     ResizeMode="NoResize"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterScreen"
+    Activated="Window_Activated">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -101,7 +102,7 @@
                 HorizontalAlignment="Left"
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
-                Text="{Binding Project.ProjectName}"
+                Text="{Binding ProjectName}"
                 VerticalAlignment="Center"
                 Width="120" />
             <TextBox
@@ -111,9 +112,10 @@
                 HorizontalAlignment="Left"
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
-                Text="{Binding Project.WorkingDirectory}"
+                Text="{Binding WorkingDirectory}"
                 VerticalAlignment="Center"
-                Width="230" />
+                Width="230"
+                TextChanged="WorkingDirectoryTextBox_TextChanged" />
             <!--<TextBox
                 x:Name="TargetPlatformTextBox"
                 Grid.Row="2"
@@ -129,7 +131,6 @@
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 x:Name="TargetButton"
-                IsEnabled="{Binding ProjectLoaded, Mode=OneWay}"
                 HorizontalAlignment="Left">
                 <WrapPanel>
                     <TextBlock
@@ -192,9 +193,10 @@
                 HorizontalAlignment="Left"
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
-                Text="{Binding Project.OutputFile}"
+                Text="{Binding OutputFile}"
                 VerticalAlignment="Center"
-                Width="80" />
+                Width="80"
+                TextChanged="OutputFileTextBox_TextChanged" />
             <!--<TextBox
                 x:Name="OptimiseTextBox"
                 Grid.Row="4"
@@ -211,7 +213,7 @@
                 Grid.Column="1"
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
-                IsChecked="{Binding Project.OptimiseCode}"
+                IsChecked="{Binding OptimiseCode}"
                 Content="" />
             <TextBox
                 x:Name="VersionTextBox"
@@ -221,7 +223,7 @@
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
                 IsReadOnly="True"
-                Text="{Binding Project.Version}"
+                Text="{Binding Version}"
                 VerticalAlignment="Center"
                 Width="80"
                 Background="#FFD1CDCD" />
@@ -233,19 +235,29 @@
                 Margin="10,0,0,0"
                 TextWrapping="Wrap"
                 IsReadOnly="True"
-                Text="{Binding Project.FullOutputFilePath, Mode=OneWay}"
+                Text="{Binding FullOutputFilePath}"
                 VerticalAlignment="Center"
                 Width="230"
                 Background="#FFD1CDCD" />
         </Grid>
-        <Button
-            x:Name="OkButton"
-            Grid.Row="1"
-            Width="50"
-            Content="OK"
+        <StackPanel
             HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Margin="10,10,10,10"
-            Click="OkButton_Click" />
+            Orientation="Horizontal"
+            Grid.Row="1"
+            VerticalAlignment="Center">
+            <Button
+                x:Name="OkButton"
+                Margin="10, 10, 10, 10"
+                Width="50"
+                Content="OK"
+                IsEnabled="{Binding CanSave}"
+                Click="OkButton_Click" />
+            <Button
+                x:Name="CancelButton"
+                Margin="10, 10, 10, 10"
+                Width="50"
+                Content="Cancel"
+                Click="CancelButton_Click" />
+        </StackPanel>
     </Grid>
 </Window>

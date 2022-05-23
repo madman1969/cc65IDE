@@ -15,7 +15,10 @@ namespace Cc65Wpf
         {
             InitializeComponent();
 
-            CC65PropertyGrid.SelectedObject = configuration;            
+            CC65PropertyGrid.SelectedObject = configuration;
+
+            // Make sure window is modal ...
+            this.Owner = App.Current.MainWindow;
         }
 
         private void CC65PropertyGrid_PropertyValueChanged(object sender, Xceed.Wpf.Toolkit.PropertyGrid.PropertyValueChangedEventArgs e)

@@ -96,6 +96,7 @@ namespace cc65Wrapper
         {
             WorkingDirectory = string.Empty;
             TargetPlatform = "pet";
+            HeaderFiles = new List<string>();
             InputFiles = new List<string>();
             OutputFile = string.Empty;
             OptimiseCode = false;
