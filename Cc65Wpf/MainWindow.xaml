@@ -146,7 +146,8 @@
                 </MenuItem>
                 <MenuItem
                     x:Name="WinVICESettingsMenuItem"
-                    Header="WinVICE Settings">
+                    Header="WinVICE Settings"
+                    Click="WinVICESettingsMenuItem_Click">
                     <MenuItem.Icon>
                         <Image
                             Source="/Images/Commodore/32x32/C64.png"

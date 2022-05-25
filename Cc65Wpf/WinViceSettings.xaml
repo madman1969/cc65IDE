@@ -1,0 +1,155 @@
+﻿<Window
+    x:Class="Cc65Wpf.WinViceSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Cc65Wpf"
+    mc:Ignorable="d"
+    Title="WinVice Settings"
+    Height="350"
+    Width="500"
+    Icon="/Logo.png"
+    WindowStartupLocation="CenterOwner"
+    Activated="Window_Activated">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition
+                Height="30*"
+                MaxHeight="40"
+                MinHeight="40" />
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Row="0"
+            Margin="10,20,10,20">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    MinWidth="140"
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Label
+                x:Name="c64Label"
+                Content="C64 Emulator"
+                HorizontalAlignment="Left"
+                Margin="10,0,10,0"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <Label
+                x:Name="c128Label"
+                Content="C128 Emulator"
+                HorizontalAlignment="Left"
+                Margin="10,0,10,0"
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <Label
+                x:Name="petLabel"
+                Content="PET Emulator"
+                HorizontalAlignment="Left"
+                Margin="10,0,10,0"
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <Label
+                x:Name="vic20Label"
+                Content="VIC20 Emulator"
+                HorizontalAlignment="Left"
+                Margin="10,0,10,0"
+                Grid.Row="3"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <Label
+                x:Name="plus4C16Label"
+                Content="Plus 4/C16 Emulator"
+                HorizontalAlignment="Left"
+                Margin="10,0,10,0"
+                Grid.Row="4"
+                VerticalAlignment="Center"
+                FontWeight="Bold" />
+            <TextBox
+                x:Name="c64TextBox"
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding Emulators.c64Path}"
+                VerticalAlignment="Center"
+                Width="300"
+                TextChanged="textBox_TextChanged"/>
+            <TextBox
+                x:Name="c128TextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding Emulators.c128Path}"
+                VerticalAlignment="Center"
+                Width="300"
+                TextChanged="textBox_TextChanged" />
+            <TextBox
+                x:Name="petTextBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding Emulators.petPath}"
+                VerticalAlignment="Center"
+                Width="300"
+                TextChanged="textBox_TextChanged" />
+            <TextBox
+                x:Name="vic20TextBox"
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding Emulators.vic20Path}"
+                VerticalAlignment="Center"
+                Width="300"
+                TextChanged="textBox_TextChanged" />
+            <TextBox
+                x:Name="plus4TextBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="10,0,0,0"
+                TextWrapping="Wrap"
+                Text="{Binding Emulators.plus4Path}"
+                VerticalAlignment="Center"
+                Width="300"
+                TextChanged="textBox_TextChanged" />
+        </Grid>
+        <StackPanel
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Grid.Row="1"
+            VerticalAlignment="Center">
+            <Button
+                x:Name="OkButton"
+                Margin="10, 10, 10, 10"
+                Width="50"
+                Content="OK"
+                IsEnabled="{Binding CanSave}"
+                Click="OkButton_Click" />
+            <Button
+                x:Name="CancelButton"
+                Margin="10, 10, 10, 10"
+                Width="50"
+                Content="Cancel"
+                Click="CancelButton_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

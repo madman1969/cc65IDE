@@ -12,7 +12,7 @@ namespace cc65Wrapper
         #region Fields and properties
 
         /// <summary>
-        /// Gets or sets the C64 path.
+        /// Gets or sets the path for the C64 emulator.
         /// </summary>
         /// <value>
         /// The C64 path.
@@ -20,7 +20,7 @@ namespace cc65Wrapper
         public string c64Path { get; set; }
 
         /// <summary>
-        /// Gets or sets the C128 path.
+        /// Gets or sets the path for the C128 emulator.
         /// </summary>
         /// <value>
         /// The C128 path.
@@ -28,15 +28,21 @@ namespace cc65Wrapper
         public string c128Path { get; set; }
 
         /// <summary>
-        /// Gets or sets the PET path.
+        /// Gets or sets the path for the CBM PET emulator.
         /// </summary>
         /// <value>
         /// The pet path.
         /// </value>
         public string petPath { get; set; }
 
+        /// <summary>
+        /// Gets or sets the path for the VIC 20 emulator
+        /// </summary>
         public string vic20Path { get; set; }
 
+        /// <summary>
+        /// Gets or sets the path for the Plus4 emulator
+        /// </summary>
         public string plus4Path { get; set; }
 
         #endregion
@@ -78,6 +84,12 @@ namespace cc65Wrapper
             return JsonConvert.DeserializeObject<Cc65Emulators>(Json);
         }
 
+        /// <summary>
+        /// Run the current emulator for the current project
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="emulators"></param>
+        /// <returns></returns>
         public static async Task<ExecutionResult> LaunchEmulator(Cc65Project project, Cc65Emulators emulators)
         {
             ExecutionResult result;
@@ -114,6 +126,11 @@ namespace cc65Wrapper
 
         #region Private Methods
 
+        /// <summary>
+        /// Build the cmd-line options required to launch the current project binary in the emulator
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         private static List<string> BuildArgumentsList(Cc65Project project)
         {
             // Add the target platform ...

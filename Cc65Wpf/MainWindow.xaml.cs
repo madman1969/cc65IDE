@@ -16,7 +16,7 @@ namespace Cc65Wpf
 {
 	// TODO: Add CC65IDE Settings dailog
 	// TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
-	// TODO: Add WinVICE settings dialog ?
+	// TODO: Tweak WinVICE settings dialog to allow file selection
 	
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -315,6 +315,11 @@ namespace Cc65Wpf
 		private void CC65SettingsMenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			ShowCC65Settings();
+		}
+
+		private void WinVICESettingsMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			ShowWinVICESettings();
 		}
 
 		private void AddExistingFileMenuItem_Click(object sender, RoutedEventArgs e)
@@ -775,6 +780,16 @@ namespace Cc65Wpf
         }
 
 		/// <summary>
+		/// Display WinVICE settings window
+		/// </summary>
+		private void ShowWinVICESettings()
+        {
+			var dlg = new WinViceSettings();
+			dlg.Emulators = emulators;
+			dlg.ShowDialog();
+        }
+
+		/// <summary>
 		/// Adds a new source/header file to the project
 		/// </summary>
 		private void AddNewFile()
@@ -903,6 +918,5 @@ namespace Cc65Wpf
         }
 
         #endregion
-
     }	
 }
