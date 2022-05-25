@@ -14,7 +14,7 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Add support for other CBM targets
+	// TODO: Add CC65IDE Settings dailog
 	// TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
 	// TODO: Add WinVICE settings dialog ?
 	
@@ -556,6 +556,24 @@ namespace Cc65Wpf
         }
 
 		/// <summary>
+		/// Closes the current project
+		/// </summary>
+		private void CloseProject()
+		{
+			SaveProject();
+
+			outputTextBox.AppendText($"Project {Project.ProjectName} closed\r\n");
+			Project = null;
+
+			ClearTreeView();
+			textEditor.Clear();
+
+			// Update status bar items ...
+			DisplayLoadedProject();
+			DisplayTargetPlatform();
+		}
+
+		/// <summary>
 		/// Opens the project.
 		/// </summary>
 		private void OpenProject()
@@ -612,21 +630,6 @@ namespace Cc65Wpf
 			else
 				targetInfo.Text = $"Target: {Project.TargetPlatform}";
         }
-
-        /// <summary>
-        /// Closes the current project
-        /// </summary>
-        private void CloseProject()
-        {
-			outputTextBox.AppendText($"Project {Project.ProjectName} closed\r\n");
-			Project = null;			
-			ClearTreeView();
-			textEditor.Clear();
-
-			// Update status bar items ...
-			DisplayLoadedProject();
-			DisplayTargetPlatform();
-		}
 
 		/// <summary>
 		/// Clears the TreeView.

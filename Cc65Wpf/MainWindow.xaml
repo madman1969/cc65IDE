@@ -428,7 +428,7 @@
             x:Name="MainPanelGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    Width="150" />
+                    Width="160" />
                 <ColumnDefinition
                     Width="4" />
                 <ColumnDefinition
@@ -439,7 +439,8 @@
             <TreeView
                 x:Name="projectTreeView"
                 Grid.Column="0"
-                SelectedItemChanged="projectTreeView_SelectedItemChanged">
+                SelectedItemChanged="projectTreeView_SelectedItemChanged"
+                FontSize="14">
                 <TreeView.Resources>
                     <ContextMenu
                         x:Key="FileContext"
