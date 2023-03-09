@@ -1,11 +1,15 @@
 {
-  "FullOutputFilePath": "C:\\Users\\aross\\source\\repos\\Draw\\Draw",
-  "InputFiles": [ "main.c", "draw.c" ],
-  "HeaderFiles": [ "draw.h", "screen.h" ],
-  "OptimiseCode": true,
-  "OutputFile": "Draw",
-  "ProjectName": "Draw",
+  "ProjectName": "Inflate",
+  "WorkingDirectory": "D:\\Commodore Stuff\\PET Stuff\\csource\\inflate",
   "TargetPlatform": "pet",
+  "InputFiles": [
+    "inflate.c"
+  ],
+  "HeaderFiles": [
+    "screen.h"
+  ],
+  "OutputFile": "inflate",
+  "OptimiseCode": true,
   "Version": 1000,
-  "WorkingDirectory": "C:\\Users\\aross\\source\\repos\\Draw"
+  "FullOutputFilePath": "D:\\Commodore Stuff\\PET Stuff\\csource\\inflate\\inflate"
 }

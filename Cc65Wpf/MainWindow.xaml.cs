@@ -14,10 +14,15 @@ using Microsoft.Win32;
 
 namespace Cc65Wpf
 {
-	// TODO: Add CC65IDE Settings dailog
-	// TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
-	// TODO: Tweak WinVICE settings dialog to allow file selection
-	
+    // TODO: Show when file is modified
+    // TODO: Fix issue where unloaded/unmodified source file is overwritten
+    // TODO: Add 'Clear Output' option to output window
+    // TODO: Resolve random crashes
+    // TODO: Add file selector to 'New Project' paths.
+    // TODO: Enable 'goto line num' functionality (N.B. NO NATIVE SUPPORT !)
+    // TODO: Tweak WinVICE settings dialog to allow file selection
+	// TODO: Add support for multiple editor windows (Single instance & just switch the text ?)
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
